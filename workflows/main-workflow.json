@@ -1,0 +1,540 @@
+{
+  "name": "ADO User Story webhook",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://office000test.qtestnet.com/api/v3/projects/23379/requirements",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "parentId",
+              "value": "5190560"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Cache-Control",
+              "value": "no-cache"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ \n  {\n    \"name\": $json.body.resource.fields['System.Title'],\n    \"properties\": [\n      {\n        \"field_id\": 2272333,\n        \"field_name\": \"Description\",\n        \"field_value\": $json.body.resource.fields['System.Description']\n      },\n      {\n        \"field_id\": 2272414,\n        \"field_name\": \"ADO LINK\",\n        \"field_value\": $json.body.resource._links.self.href\n      },\n      {\n        \"field_id\": 2273528,\n        \"field_name\": \"Created By\",\n        \"field_value\": $json.body.resource.fields['System.CreatedBy']\n      },\n      {\n        \"field_id\": 2274114,\n        \"field_name\": \"Azure_DevOps_ID\",\n        \"field_value\": $json.body.resource.id,\n      },\n    ]\n  }\n}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        656,
+        -160
+      ],
+      "id": "aa7039d8-9f29-42ff-995f-e37cbad20041",
+      "name": "Create-HTTP Request",
+      "retryOnFail": false,
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "E8FCpJn3yP6SRy7U",
+          "name": "Bearer Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://office000test.qtestnet.com/api/v3/projects/23379/requirements/{{ $json.requirementId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "parentId",
+              "value": "5190560"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Cache-Control",
+              "value": "no-cache"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ \n  {\n    \"name\": $('Event Switch').item.json.body.resource.revision.fields['System.Title'],\n    \"properties\": [\n      {\n        \"field_id\": 2272333,\n        \"field_name\": \"Description\",\n        \"field_value\": $('Event Switch').item.json.body.resource.revision.fields['System.Description']\n      },\n      {\n        \"field_id\": 2272414,\n        \"field_name\": \"ADO LINK\",\n        \"field_value\": $('Event Switch').item.json.body.resource._links.self.href\n      },\n    ]\n  }\n}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1152,
+        -16
+      ],
+      "id": "ef372d32-ba02-421a-b3a5-a85ab3018cab",
+      "name": "Update-HTTP Request",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "E8FCpJn3yP6SRy7U",
+          "name": "Bearer Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "DELETE",
+        "url": "=https://office000test.qtestnet.com/api/v3/projects/23379/requirements/{{ $json.requirementId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "parentId",
+              "value": "5190560"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Cache-Control",
+              "value": "no-cache"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1168,
+        176
+      ],
+      "id": "bbc00cb1-b7f1-4817-8312-bc35bfd641e1",
+      "name": "Delete-HTTP Request",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "E8FCpJn3yP6SRy7U",
+          "name": "Bearer Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://office000test.qtestnet.com/api/v3/projects/23379/search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"object_type\": \"requirements\",\n    \"fields\": [\n      \"id\" \n    ],\n    \"query\": \"'Azure_DevOps_ID' = {{ $json.body.resource.id }}\"\n  }\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        496,
+        192
+      ],
+      "id": "937ddee6-c01a-4c9d-986f-8e2b4df699cc",
+      "name": "Search Req-HTTP Request - Delete",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "E8FCpJn3yP6SRy7U",
+          "name": "Bearer Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract requirement ID from search results\nconst searchResults = $input.first().json.items || [];\n\nif (searchResults.length > 0) {\n  const requirement = searchResults[0];\n  \n  // Pass through both the requirement ID and the updated data from Azure DevOps\n  return {\n    json: {\n      requirementId: requirement.id,\n      found: true,\n      azureDevOpsData: $input.first().json.resource // Original Azure DevOps data\n    }\n  };\n} else {\n  return {\n    json: {\n      requirementId: null,\n      found: false,\n      azureDevOpsData: $input.first().json.resource\n    }\n  };\n}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        704,
+        192
+      ],
+      "id": "e230ecab-0204-40e4-bd50-e2b70fe6ceaa",
+      "name": "Extract Req Id - JS - Delete"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e76bf62f-ac20-4255-b4c1-f73d4054dd2d",
+              "leftValue": "={{ $json.found }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        912,
+        192
+      ],
+      "id": "99d872c9-681e-47bd-b993-179d6585055d",
+      "name": "Req Found? Delete"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.eventType }}",
+                    "rightValue": "workItem.created",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "e1965587-0695-430c-b5ce-ea78264b28ef"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Created"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "78444353-6c2d-4f78-97e2-3276396b7e2c",
+                    "leftValue": "={{ $json.body.eventType }}",
+                    "rightValue": "workItem.updated",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Updated"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "3905617e-1f34-4d92-8a17-0d21e424181e",
+                    "leftValue": "={{ $json.body.eventType }}",
+                    "rightValue": "workItem.deleted",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Deleted"
+            }
+          ]
+        },
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        208,
+        -16
+      ],
+      "id": "a9e84a2d-edd6-4875-b8f5-2493ac38a43b",
+      "name": "Event Switch",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "multipleMethods": true,
+        "httpMethod": [
+          "POST"
+        ],
+        "path": "azure-dev-ops-task",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "aaf1f111-bf89-4e98-8c7b-0db015adff32",
+      "name": "Event Webhook",
+      "webhookId": "87b5a185-7ccd-495f-be6e-6ee2a1ad0da3",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://office000test.qtestnet.com/api/v3/projects/23379/search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"object_type\": \"requirements\",\n    \"fields\": [\n      \"id\" \n    ],\n    \"query\": \"'Azure_DevOps_ID' = {{ $json.body.resource.workItemId }}\"\n  }\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        496,
+        0
+      ],
+      "id": "37172bcd-42f4-4357-8d0d-b79ca20c964d",
+      "name": "Search Req-HTTP Request - Update",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "E8FCpJn3yP6SRy7U",
+          "name": "Bearer Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract requirement ID from search results\nconst searchResults = $input.first().json.items || [];\n\nif (searchResults.length > 0) {\n  const requirement = searchResults[0];\n  \n  // Pass through both the requirement ID and the updated data from Azure DevOps\n  return {\n    json: {\n      requirementId: requirement.id,\n      found: true,\n      azureDevOpsData: $input.first().json.resource // Original Azure DevOps data\n    }\n  };\n} else {\n  return {\n    json: {\n      requirementId: null,\n      found: false,\n      azureDevOpsData: $input.first().json.resource\n    }\n  };\n}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        704,
+        0
+      ],
+      "id": "be8641f0-272c-4037-93c1-9c461670f8a4",
+      "name": "Extract Req Id - JS - Update"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e76bf62f-ac20-4255-b4c1-f73d4054dd2d",
+              "leftValue": "={{ $json.found }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        912,
+        0
+      ],
+      "id": "d8a05c69-f107-4cbb-bb86-732f04132a53",
+      "name": "Req Found? Update"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Create-HTTP Request": {
+      "main": [
+        []
+      ]
+    },
+    "Search Req-HTTP Request - Delete": {
+      "main": [
+        [
+          {
+            "node": "Extract Req Id - JS - Delete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Req Id - JS - Delete": {
+      "main": [
+        [
+          {
+            "node": "Req Found? Delete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Req Found? Delete": {
+      "main": [
+        [
+          {
+            "node": "Delete-HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Event Switch": {
+      "main": [
+        [
+          {
+            "node": "Create-HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Search Req-HTTP Request - Update",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Search Req-HTTP Request - Delete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Event Webhook": {
+      "main": [
+        [
+          {
+            "node": "Event Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Req-HTTP Request - Update": {
+      "main": [
+        [
+          {
+            "node": "Extract Req Id - JS - Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Req Id - JS - Update": {
+      "main": [
+        [
+          {
+            "node": "Req Found? Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Req Found? Update": {
+      "main": [
+        [
+          {
+            "node": "Update-HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "0b513fb5-0598-4913-ad0c-83bd9b407753",
+  "meta": {
+    "instanceId": "3c3b501e61c0ae6328fd408bc78270dbae3cfb1e7f991ea60d8bbb0d3771150e"
+  },
+  "id": "scdz6TmeZ8NXWruT",
+  "tags": []
+}
