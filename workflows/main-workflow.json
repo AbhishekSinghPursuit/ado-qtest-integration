@@ -33,8 +33,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        656,
-        -160
+        832,
+        -192
       ],
       "id": "aa7039d8-9f29-42ff-995f-e37cbad20041",
       "name": "Create-HTTP Request",
@@ -78,7 +78,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        1152,
+        1568,
         -16
       ],
       "id": "ef372d32-ba02-421a-b3a5-a85ab3018cab",
@@ -125,7 +125,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        1168,
+        1584,
         176
       ],
       "id": "bbc00cb1-b7f1-4817-8312-bc35bfd641e1",
@@ -160,7 +160,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        496,
+        912,
         192
       ],
       "id": "937ddee6-c01a-4c9d-986f-8e2b4df699cc",
@@ -179,7 +179,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        704,
+        1120,
         192
       ],
       "id": "e230ecab-0204-40e4-bd50-e2b70fe6ceaa",
@@ -212,7 +212,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        912,
+        1328,
         192
       ],
       "id": "99d872c9-681e-47bd-b993-179d6585055d",
@@ -232,7 +232,7 @@
                 },
                 "conditions": [
                   {
-                    "leftValue": "={{ $json.body.eventType }}",
+                    "leftValue": "={{ $json.webhookData.body.eventType }}",
                     "rightValue": "workItem.created",
                     "operator": {
                       "type": "string",
@@ -257,7 +257,7 @@
                 "conditions": [
                   {
                     "id": "78444353-6c2d-4f78-97e2-3276396b7e2c",
-                    "leftValue": "={{ $json.body.eventType }}",
+                    "leftValue": "={{ $json.webhookData.body.eventType }}",
                     "rightValue": "workItem.updated",
                     "operator": {
                       "type": "string",
@@ -282,7 +282,7 @@
                 "conditions": [
                   {
                     "id": "3905617e-1f34-4d92-8a17-0d21e424181e",
-                    "leftValue": "={{ $json.body.eventType }}",
+                    "leftValue": "={{ $json.webhookData.body.eventType }}",
                     "rightValue": "workItem.deleted",
                     "operator": {
                       "type": "string",
@@ -305,7 +305,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.3,
       "position": [
-        208,
+        416,
         -16
       ],
       "id": "a9e84a2d-edd6-4875-b8f5-2493ac38a43b",
@@ -356,7 +356,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        496,
+        912,
         0
       ],
       "id": "37172bcd-42f4-4357-8d0d-b79ca20c964d",
@@ -375,7 +375,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        704,
+        1120,
         0
       ],
       "id": "be8641f0-272c-4037-93c1-9c461670f8a4",
@@ -408,11 +408,24 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        912,
+        1328,
         0
       ],
       "id": "d8a05c69-f107-4cbb-bb86-732f04132a53",
       "name": "Req Found? Update"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Store project configurations \n// In production, load this from external file or database \nconst projectConfigurations = { \n  \"nodeautomation\": { \n    qtest_project_id: 23379, \n    qtest_url: \"https://office000test.qtestnet.com\", \n    qtest_token_name: \"qTest demo Project API\", \n    field_mappings: { \n      description: 2272333, \n      azure_devops_id: 2274114, \n      ado_url: 2272414, \n      created_by: 2273528 \n    }, \n    parent_requirement_id: 5190560, \n    default_status: \"Draft\" \n  }, \n  \"nodeautomation2\": { \n    qtest_project_id: 23514, \n    qtest_url: \"https://office000test.qtestnet.com\", \n    qtest_token: \"token_for_project2\", \n    field_mappings: { \n      description: 2285539, \n      azure_devops_id: 2285607, \n      ado_url: 2285602, \n      created_by: 2285600 \n    }, \n    parent_requirement_id: 5198870, \n    default_status: \"New\" \n  } \n}; \n \n// Get the incoming webhook data \nconst webhookData = $input.first().json; \n// const azureProjectName = webhookData.body.resource.fields['System.TeamProject'] || \n//                          \"MyAzureDevOpsProject1\"; // fallback \n// return {\n//   json:{\n//     data: webhookData,\n//     azureProjectName: azureProjectName\n//   }\n// }\n\n// Extract Azure DevOps project name from webhook \n// The project info is typically in the resource or in custom fields \nconst azureProjectName = webhookData.body.resource.fields['System.TeamProject'] || \n                         \"nodeautomation\"; // fallback \n \n// Get the configuration for this project \nconst key = String(\"nodeautomation\" || '');\nconst projectConfig = projectConfigurations[key]; \n \nif (!projectConfig) { \n  throw new Error(`No configuration found for project: ${azureProjectName}`); \n} \n \n// Pass through webhook data with added config \nreturn { \n  json: { \n    webhookData: webhookData, \n    projectConfig: projectConfig, \n    azureProjectName: azureProjectName \n  } \n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "08628cff-61aa-4184-be93-8bf652dbf9a1",
+      "name": "Load Configurations - JS"
     }
   ],
   "pinData": {},
@@ -484,7 +497,7 @@
       "main": [
         [
           {
-            "node": "Event Switch",
+            "node": "Load Configurations - JS",
             "type": "main",
             "index": 0
           }
@@ -523,15 +536,26 @@
           }
         ]
       ]
+    },
+    "Load Configurations - JS": {
+      "main": [
+        [
+          {
+            "node": "Event Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
-  "active": true,
+  "active": false,
   "settings": {
     "executionOrder": "v1",
     "callerPolicy": "workflowsFromSameOwner",
     "availableInMCP": false
   },
-  "versionId": "0b513fb5-0598-4913-ad0c-83bd9b407753",
+  "versionId": "ed01ac92-f500-4be6-ba74-7352042e18d5",
   "meta": {
     "instanceId": "3c3b501e61c0ae6328fd408bc78270dbae3cfb1e7f991ea60d8bbb0d3771150e"
   },
