@@ -1,4 +1,11 @@
 ## ADO - qTest Integration
+This workflow shows how Azure DevOps automatically connects to qTest through n8n (the connecting technology) and then performs the tasks like `create/update/delete` requirements in a qTest project with its APIs. 
+
+**In Simple Terms:**
+- When you create a task in Azure DevOps Board → A requirement automatically appears in qTest 
+- When you update the task → The requirement updates automatically 
+- When you delete the task → The requirement gets removed automatically 
+**No manual data entry. No copy-paste errors. No delays.** 
 
 ## Complete Implementation Guide
 [ADO-qTest Integration Guide](https://pursuitsoftwarebiz-my.sharepoint.com/:w:/g/personal/abhishek_s_pursuitsoftware_com/ETiML2N9efVDr-Ykz3U49nsBbCte6L1nF4QmEL86MgrsnQ?e=S0J1hm)
@@ -9,7 +16,7 @@
 
 ## Workflow for Making Changes 
 
-### Developer A wants to add multi-project support: 
+### If someone wants to add some changes here: 
 
 1. Clone repository 
 ```bash
@@ -22,15 +29,15 @@ cd ado-qtest-integration
 git checkout -b feature/multi-project-config 
 ```
  
-3. Export current workflow from n8n 
+3. Import current workflow from n8n (Only for self-hosted or cloud enterprise users)
 ```bash
-./scripts/export-workflows.sh 
+./scripts/import-workflows.sh 
 ```
  
 4. Make changes in n8n UI 
 (Or edit JSON file directly if you're comfortable) 
  
-5. Export updated workflow 
+5. Export updated workflow (Only for self-hosted or cloud enterprise users)
 ```bash
 ./scripts/export-workflows.sh 
 ```
