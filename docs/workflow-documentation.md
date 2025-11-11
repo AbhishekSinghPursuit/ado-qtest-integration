@@ -127,4 +127,4 @@ Errors are:
 - Monitor email alerts 
  
 ## Troubleshooting 
-See `docs/troubleshooting.md`
+See [docs/troubleshooting](/docs/troubleshooting.md)
