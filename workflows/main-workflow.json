@@ -37,8 +37,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        1216,
-        -160
+        928,
+        128
       ],
       "id": "aa7039d8-9f29-42ff-995f-e37cbad20041",
       "name": "Create-HTTP Request",
@@ -82,8 +82,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        1856,
-        -32
+        1568,
+        256
       ],
       "id": "ef372d32-ba02-421a-b3a5-a85ab3018cab",
       "name": "Update-HTTP Request",
@@ -129,8 +129,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        1856,
-        160
+        1568,
+        448
       ],
       "id": "bbc00cb1-b7f1-4817-8312-bc35bfd641e1",
       "name": "Delete-HTTP Request",
@@ -164,8 +164,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        1216,
-        176
+        928,
+        464
       ],
       "id": "937ddee6-c01a-4c9d-986f-8e2b4df699cc",
       "name": "Search Req-HTTP Request - Delete",
@@ -183,8 +183,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1424,
-        176
+        1136,
+        464
       ],
       "id": "e230ecab-0204-40e4-bd50-e2b70fe6ceaa",
       "name": "Extract Req Id - JS - Delete"
@@ -216,8 +216,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1632,
-        176
+        1344,
+        464
       ],
       "id": "99d872c9-681e-47bd-b993-179d6585055d",
       "name": "Req Found? Delete"
@@ -309,8 +309,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.3,
       "position": [
-        928,
-        -32
+        640,
+        256
       ],
       "id": "a9e84a2d-edd6-4875-b8f5-2493ac38a43b",
       "name": "Event Switch",
@@ -360,8 +360,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        1216,
-        -16
+        928,
+        272
       ],
       "id": "37172bcd-42f4-4357-8d0d-b79ca20c964d",
       "name": "Search Req-HTTP Request - Update",
@@ -379,8 +379,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1424,
-        -16
+        1136,
+        272
       ],
       "id": "be8641f0-272c-4037-93c1-9c461670f8a4",
       "name": "Extract Req Id - JS - Update"
@@ -412,8 +412,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1632,
-        -16
+        1344,
+        272
       ],
       "id": "d8a05c69-f107-4cbb-bb86-732f04132a53",
       "name": "Req Found? Update"
@@ -433,493 +433,16 @@
     },
     {
       "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.azureProjectName }}",
-                    "rightValue": "nodeautomation2",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals"
-                    },
-                    "id": "2249957b-c90b-42af-9b06-56eaa8ee24a2"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "=nodeautomation"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "id": "6e9fe6d8-d12d-4c15-a298-683eb21a8d32",
-                    "leftValue": "={{ $json.azureProjectName }}",
-                    "rightValue": "nodeautomation",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "=nodeautomation2"
-            }
-          ]
-        },
-        "options": {
-          "fallbackOutput": "none"
-        }
+        "jsCode": "// Configuration for Project 1 ONLY\n// No credentials here - just field mappings\nconst config = {\n  \"nodeautomation\": { \n    qtest_project_id: 23379, \n    qtest_url: \"https://office000test.qtestnet.com\", \n    qtest_token_name: \"qTest demo Project API\", \n    field_mappings: { \n      description: 2272333, \n      azure_devops_id: 2274114, \n      ado_url: 2272414, \n      created_by: 2273528 \n    }, \n    parent_requirement_id: 5190560, \n    default_status: \"Draft\" \n  }, \n  \"nodeautomation2\": { \n    qtest_project_id: 23514, \n    qtest_url: \"https://office000test.qtestnet.com\", \n    qtest_token: \"token_for_project2\", \n    field_mappings: { \n      description: 2285539, \n      azure_devops_id: 2285607, \n      ado_url: 2285602, \n      created_by: 2285600 \n    }, \n    parent_requirement_id: 5198870, \n    default_status: \"New\" \n  }\n};\n\n// Get webhook data\nconst webhookData = $input.first().json.webhookData;\nconst workItem = webhookData.resource;\nconst projectName = $input.first().json.azureProjectName;\n\nlet name = \"  \";\nlet desc = \"  \";\nlet workitemid = -1;\n\nif(webhookData.eventType===\"workitem.updated\"){\n  name = workItem.revision.fields[\"System.Title\"];\n  desc = workItem.revision.fields[\"System.Description\"];\n  workitemid = workItem.workItemId.toString()|| -1;\n}else{\n  name = workItem.fields[\"System.Title\"];\n  desc = workItem.fields[\"System.Description\"];\n  workitemid = workItem.id;\n}\n\n// Build qTest payload\nconst qTestPayload = {\n  name: name || '  ', \n  parent_id: config[projectName].parent_requirement_id, \n  properties: [ \n    { \n      field_id: config[projectName].field_mappings.description, \n      field_name: \"Description\",\n      field_value: desc || '  '\n    }, \n    { \n      field_id: config[projectName].field_mappings.azure_devops_id, \n      field_name: \"Azure_DevOps_ID\",\n      field_value: workitemid\n    }, \n    { \n      field_id: config[projectName].field_mappings.ado_url, \n      field_name: \"ADO Link\",\n      field_value: workItem._links?.html?.href || \"https://dev.azure.com/\" \n    }, \n    { \n      field_id: config[projectName].field_mappings.created_by, \n      field_name: \"Created By\",\n      field_value: String(workItem.fields['System.CreatedBy']) || ''\n    } \n  ] \n};\n\nreturn {\n  json: {\n    eventType: $input.first().json.eventType,\n    payload: qTestPayload,\n    qtest_url: config[projectName].qtest_url,\n    qtest_project_id: config[projectName].qtest_project_id,\n    workitem_id: workitemid\n  }\n};"
       },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.3,
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
-        432,
+        448,
         272
       ],
-      "id": "92fa89bd-18e9-4762-96de-30307105402b",
-      "name": "Switch"
-    },
-    {
-      "parameters": {
-        "jsCode": "// Configuration for Project 1 ONLY\n// No credentials here - just field mappings\nconst config = {\n  qtest_project_id: 23379, \n  qtest_url: \"https://office000test.qtestnet.com\", \n  qtest_token_name: \"qTest demo Project API\", \n  field_mappings: { \n    description: 2272333, \n    azure_devops_id: 2274114, \n    ado_url: 2272414, \n    created_by: 2273528 \n  }, \n  parent_requirement_id: 5190560, \n  default_status: \"Draft\"\n};\n\n// Get webhook data\nconst webhookData = $input.first().json.webhookData;\nconst workItem = webhookData.resource;\n\nlet name = \"  \";\nlet desc = \"  \";\nlet workitemid = -1;\n\nif(webhookData.eventType===\"workitem.updated\"){\n  name = workItem.revision.fields[\"System.Title\"];\n  desc = workItem.revision.fields[\"System.Description\"];\n  workitemid = workItem.workItemId.toString()|| -1;\n}else{\n  name = workItem.fields[\"System.Title\"];\n  desc = workItem.fields[\"System.Description\"];\n  workitemid = workItem.id;\n}\n\n// Build qTest payload\nconst qTestPayload = {\n  name: name || '  ', \n  parent_id: config.parent_requirement_id, \n  properties: [ \n    { \n      field_id: config.field_mappings.description, \n      field_name: \"Description\",\n      field_value: desc || '  '\n    }, \n    { \n      field_id: config.field_mappings.azure_devops_id, \n      field_name: \"Azure_DevOps_ID\",\n      field_value: workitemid\n    }, \n    { \n      field_id: config.field_mappings.ado_url, \n      field_name: \"ADO Link\",\n      field_value: workItem._links?.html?.href || \"https://dev.azure.com/\" \n    }, \n    { \n      field_id: config.field_mappings.created_by, \n      field_name: \"Created By\",\n      field_value: String(workItem.fields['System.CreatedBy']) || ''\n    } \n  ] \n};\n\nreturn {\n  json: {\n    eventType: $input.first().json.eventType,\n    payload: qTestPayload,\n    qtest_url: config.qtest_url,\n    qtest_project_id: config.qtest_project_id,\n    workitem_id: workitemid\n  }\n};"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        736,
-        -16
-      ],
       "id": "082ec9a1-2d8b-45f6-898f-112526a92da2",
-      "name": "Build Dynamic Create Req Payload - JS"
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "={{ $json.qtest_url }}/api/v3/projects/{{ $json.qtest_project_id }}/requirements",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpBearerAuth",
-        "sendQuery": true,
-        "queryParameters": {
-          "parameters": [
-            {
-              "name": "parentId",
-              "value": "={{ $json.payload.parent_id }}"
-            }
-          ]
-        },
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Cache-Control",
-              "value": "no-cache"
-            },
-            {
-              "name": "Content-Type",
-              "value": "application/json"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ \n  {\n    \"name\": $json.payload.name,\n    \"properties\": [\n      {\n        \"field_id\": $json.payload.properties[0].field_id,\n        \"field_name\": $json.payload.properties[0].field_name,\n        \"field_value\": $json.payload.properties[0].field_value\n      },\n      {\n        \"field_id\": $json.payload.properties[1].field_id,\n        \"field_name\": $json.payload.properties[1].field_name,\n        \"field_value\": $json.payload.properties[1].field_value\n      },\n      {\n        \"field_id\": $json.payload.properties[2].field_id,\n        \"field_name\": $json.payload.properties[2].field_name,\n        \"field_value\": $json.payload.properties[2].field_value\n      },\n      {\n        \"field_id\": $json.payload.properties[3].field_id,\n        \"field_name\": $json.payload.properties[3].field_name,\n        \"field_value\": $json.payload.properties[3].field_value\n      }\n    ]\n  }\n}}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [
-        1216,
-        352
-      ],
-      "id": "1a947b02-44bb-4f70-b949-6c0fd7b68b54",
-      "name": "Create-HTTP Request1",
-      "retryOnFail": false,
-      "credentials": {
-        "httpBearerAuth": {
-          "id": "E8FCpJn3yP6SRy7U",
-          "name": "Bearer Auth account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "method": "PUT",
-        "url": "={{ $('Event Switch1').item.json.qtest_url }}/api/v3/projects/{{ $('Event Switch1').item.json.qtest_project_id }}/requirements/{{ $json.requirementId }}",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpBearerAuth",
-        "sendQuery": true,
-        "queryParameters": {
-          "parameters": [
-            {
-              "name": "parentId",
-              "value": "={{ $('Event Switch1').item.json.payload.parent_id }}"
-            }
-          ]
-        },
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Cache-Control",
-              "value": "no-cache"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={{ \n  {\n    \"name\":$('Event Switch1').item.json.payload.name,\n    \"properties\": [\n      {\n        \"field_id\": $('Event Switch1').item.json.payload.properties[0].field_id,\n        \"field_name\": $('Event Switch1').item.json.payload.properties[0].field_name,\n        \"field_value\": $('Event Switch1').item.json.payload.properties[0].field_value\n      },\n      {\n        \"field_id\": $('Event Switch1').item.json.payload.properties[1].field_id,\n        \"field_name\": $('Event Switch1').item.json.payload.properties[1].field_name,\n        \"field_value\": $('Event Switch1').item.json.payload.properties[1].field_value\n      },\n      {\n        \"field_id\": $('Event Switch1').item.json.payload.properties[2].field_id,\n        \"field_name\": $('Event Switch1').item.json.payload.properties[2].field_name,\n        \"field_value\": $('Event Switch1').item.json.payload.properties[2].field_value\n      }\n    ]\n  }\n}}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [
-        1856,
-        480
-      ],
-      "id": "ee827229-b911-4ee9-85db-5fbf132ae6e5",
-      "name": "Update-HTTP Request1",
-      "credentials": {
-        "httpBearerAuth": {
-          "id": "E8FCpJn3yP6SRy7U",
-          "name": "Bearer Auth account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "method": "DELETE",
-        "url": "=https://office000test.qtestnet.com/api/v3/projects/23379/requirements/{{ $json.requirementId }}",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpBearerAuth",
-        "sendQuery": true,
-        "queryParameters": {
-          "parameters": [
-            {
-              "name": "parentId",
-              "value": "={{ $('Event Switch1').item.json.payload.parent_id }}"
-            }
-          ]
-        },
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Cache-Control",
-              "value": "no-cache"
-            }
-          ]
-        },
-        "options": {
-          "response": {
-            "response": {
-              "responseFormat": "text"
-            }
-          }
-        }
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [
-        1856,
-        672
-      ],
-      "id": "3c44af4d-7933-4468-872d-6f45a76aca46",
-      "name": "Delete-HTTP Request1",
-      "credentials": {
-        "httpBearerAuth": {
-          "id": "E8FCpJn3yP6SRy7U",
-          "name": "Bearer Auth account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "={{ $json.qtest_url }}/api/v3/projects/{{ $json.qtest_project_id }}/search",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpBearerAuth",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Content-Type",
-              "value": "application/json"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n    \"object_type\": \"requirements\",\n    \"fields\": [\n      \"id\" \n    ],\n    \"query\": \"'Azure_DevOps_ID' = {{ $json.workitem_id }}\"\n  }\n",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [
-        1216,
-        688
-      ],
-      "id": "2704c9e9-580b-4c85-83a4-2c4c5faebd1f",
-      "name": "Search Req-HTTP Request - Delete1",
-      "credentials": {
-        "httpBearerAuth": {
-          "id": "E8FCpJn3yP6SRy7U",
-          "name": "Bearer Auth account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "jsCode": "// Extract requirement ID from search results\nconst searchResults = $input.first().json.items || [];\n\nif (searchResults.length > 0) {\n  const requirement = searchResults[0];\n  \n  // Pass through both the requirement ID and the updated data from Azure DevOps\n  return {\n    json: {\n      requirementId: requirement.id,\n      found: true,\n      azureDevOpsData: $input.first().json.resource // Original Azure DevOps data\n    }\n  };\n} else {\n  return {\n    json: {\n      requirementId: null,\n      found: false,\n      azureDevOpsData: $input.first().json.resource\n    }\n  };\n}\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        1424,
-        688
-      ],
-      "id": "eb05b48c-96b1-4cbb-a36e-eb1835c9f77e",
-      "name": "Extract Req Id - JS - Delete1"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "e76bf62f-ac20-4255-b4c1-f73d4054dd2d",
-              "leftValue": "={{ $json.found }}",
-              "rightValue": true,
-              "operator": {
-                "type": "boolean",
-                "operation": "equals"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        1632,
-        688
-      ],
-      "id": "4b228da9-778a-4c77-836e-40cae94422c3",
-      "name": "Req Found? Delete1"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": false,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.eventType }}",
-                    "rightValue": "workItem.created",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals"
-                    },
-                    "id": "e1965587-0695-430c-b5ce-ea78264b28ef"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "Created"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": false,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "id": "78444353-6c2d-4f78-97e2-3276396b7e2c",
-                    "leftValue": "={{ $json.eventType }}",
-                    "rightValue": "workItem.updated",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "Updated"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": false,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "id": "3905617e-1f34-4d92-8a17-0d21e424181e",
-                    "leftValue": "={{ $json.eventType }}",
-                    "rightValue": "workItem.deleted",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "Deleted"
-            }
-          ]
-        },
-        "options": {
-          "ignoreCase": true
-        }
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.3,
-      "position": [
-        928,
-        480
-      ],
-      "id": "ca534681-d472-487c-a9dc-a9fc0da0ad00",
-      "name": "Event Switch1",
-      "alwaysOutputData": false
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "={{ $json.qtest_url }}/api/v3/projects/{{ $json.qtest_project_id }}/search",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpBearerAuth",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Content-Type",
-              "value": "application/json"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n    \"object_type\": \"requirements\",\n    \"fields\": [\n      \"id\" \n    ],\n    \"query\": \"'Azure_DevOps_ID' = {{ $json.workitem_id }}\"\n  }\n",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [
-        1216,
-        496
-      ],
-      "id": "155f2b8c-da7c-4fe1-aedd-883e56617d2a",
-      "name": "Search Req-HTTP Request - Update1",
-      "credentials": {
-        "httpBearerAuth": {
-          "id": "E8FCpJn3yP6SRy7U",
-          "name": "Bearer Auth account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "jsCode": "// Extract requirement ID from search results\nconst searchResults = $input.first().json.items || [];\n\nif (searchResults.length > 0) {\n  const requirement = searchResults[0];\n  \n  // Pass through both the requirement ID and the updated data from Azure DevOps\n  return {\n    json: {\n      requirementId: requirement.id,\n      found: true,\n      azureDevOpsData: $input.first().json.resource // Original Azure DevOps data\n    }\n  };\n} else {\n  return {\n    json: {\n      requirementId: null,\n      found: false,\n      azureDevOpsData: $input.first().json.resource\n    }\n  };\n}\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        1424,
-        496
-      ],
-      "id": "7231154f-8864-4497-b60a-f09d8be8752b",
-      "name": "Extract Req Id - JS - Update1"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "e76bf62f-ac20-4255-b4c1-f73d4054dd2d",
-              "leftValue": "={{ $json.found }}",
-              "rightValue": true,
-              "operator": {
-                "type": "boolean",
-                "operation": "equals"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        1632,
-        496
-      ],
-      "id": "c58b8c1a-7e9f-4ff7-bb72-a3355d91cc40",
-      "name": "Req Found? Update1"
-    },
-    {
-      "parameters": {
-        "jsCode": "// Configuration for Project 1 ONLY\n// No credentials here - just field mappings\nconst config = {\n  qtest_project_id: 23514, \n  qtest_url: \"https://office000test.qtestnet.com\", \n  qtest_token: \"token_for_project2\", \n  field_mappings: { \n    description: 2285539, \n    azure_devops_id: 2285607, \n    ado_url: 2285602, \n    created_by: 2285600 \n  }, \n  parent_requirement_id: 5198870, \n  default_status: \"New\"\n};\n\n// Get webhook data\nconst webhookData = $input.first().json.webhookData;\nconst workItem = webhookData.resource;\n\nlet name = \"  \";\nlet desc = \"  \";\nlet workitemid = -1;\n\nif(webhookData.eventType===\"workitem.updated\"){\n  name = workItem.revision.fields[\"System.Title\"];\n  desc = workItem.revision.fields[\"System.Description\"];\n  workitemid = workItem.workItemId.toString()|| -1;\n}else{\n  name = workItem.fields[\"System.Title\"];\n  desc = workItem.fields[\"System.Description\"];\n  workitemid = workItem.id;\n}\n\n// Build qTest payload\nconst qTestPayload = {\n  name: name || '  ', \n  parent_id: config.parent_requirement_id, \n  properties: [ \n    { \n      field_id: config.field_mappings.description, \n      field_name: \"Description\",\n      field_value: desc || '  '\n    }, \n    { \n      field_id: config.field_mappings.azure_devops_id, \n      field_name: \"Azure_DevOps_ID\",\n      field_value: workitemid\n    }, \n    { \n      field_id: config.field_mappings.ado_url, \n      field_name: \"ADO Link\",\n      field_value: workItem._links?.html?.href || \"https://dev.azure.com/\" \n    }, \n    { \n      field_id: config.field_mappings.created_by, \n      field_name: \"Created By\",\n      field_value: String(workItem.fields['System.CreatedBy']) || ''\n    } \n  ] \n};\n\nreturn {\n  json: {\n    eventType: $input.first().json.eventType,\n    payload: qTestPayload,\n    qtest_url: config.qtest_url,\n    qtest_project_id: config.qtest_project_id,\n    workitem_id: workitemid\n  }\n};"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        736,
-        496
-      ],
-      "id": "c2652aad-620d-44e9-96e9-ee3323a1e729",
-      "name": "Build Dynamic Create Req Payload - JS1"
+      "name": "Build Dynamic Payload - JS"
     }
   ],
   "pinData": {},
@@ -1035,138 +558,18 @@
       "main": [
         [
           {
-            "node": "Switch",
+            "node": "Build Dynamic Payload - JS",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Switch": {
-      "main": [
-        [
-          {
-            "node": "Build Dynamic Create Req Payload - JS",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Build Dynamic Create Req Payload - JS1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Build Dynamic Create Req Payload - JS": {
+    "Build Dynamic Payload - JS": {
       "main": [
         [
           {
             "node": "Event Switch",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Search Req-HTTP Request - Delete1": {
-      "main": [
-        [
-          {
-            "node": "Extract Req Id - JS - Delete1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Extract Req Id - JS - Delete1": {
-      "main": [
-        [
-          {
-            "node": "Req Found? Delete1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Req Found? Delete1": {
-      "main": [
-        [
-          {
-            "node": "Delete-HTTP Request1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Event Switch1": {
-      "main": [
-        [
-          {
-            "node": "Create-HTTP Request1",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Search Req-HTTP Request - Update1",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Search Req-HTTP Request - Delete1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Search Req-HTTP Request - Update1": {
-      "main": [
-        [
-          {
-            "node": "Extract Req Id - JS - Update1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Extract Req Id - JS - Update1": {
-      "main": [
-        [
-          {
-            "node": "Req Found? Update1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Req Found? Update1": {
-      "main": [
-        [
-          {
-            "node": "Update-HTTP Request1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Build Dynamic Create Req Payload - JS1": {
-      "main": [
-        [
-          {
-            "node": "Event Switch1",
             "type": "main",
             "index": 0
           }
@@ -1180,7 +583,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "availableInMCP": false
   },
-  "versionId": "5c299642-3add-4b2e-8f1a-16e284461dcc",
+  "versionId": "a5e4d706-25bc-4f75-b129-b9fc5b4be380",
   "meta": {
     "instanceId": "3c3b501e61c0ae6328fd408bc78270dbae3cfb1e7f991ea60d8bbb0d3771150e"
   },
