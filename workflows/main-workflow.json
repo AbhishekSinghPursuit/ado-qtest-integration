@@ -3,8 +3,125 @@
   "nodes": [
     {
       "parameters": {
+        "content": "# Azure DevOps → qTest Integration\n\nPurpose: Sync ADO work items to qTest requirements.\nTriggers: workitem.created, workitem.updated, workitem.deleted\nFlows: Create → Update → Delete\nAuth: qTest Bearer token (stored credential)\nNotes: Config-driven per ADO project"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -120,
+        -200
+      ],
+      "id": "sticky-workflow-overview",
+      "name": "Overview"
+    },
+    {
+      "parameters": {
+        "content": "Webhook Node\nPurpose: Receive Azure DevOps service hooks\nType: webhook (POST)\nPath: azure-dev-ops-task\nOutput: raw webhook body (eventType + resource)\nResponseMode: lastNode"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        120
+      ],
+      "id": "sticky-webhook",
+      "name": "Webhook Note"
+    },
+    {
+      "parameters": {
+        "content": "Load Configurations (JS)\nPurpose: Determine ADO project mapping\nOutput: azureProjectName\nNotes: No credentials loaded here — only selects config block"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        160,
+        120
+      ],
+      "id": "sticky-load-config",
+      "name": "Config Selection"
+    },
+    {
+      "parameters": {
+        "content": "Build Dynamic Payload (JS)\nPurpose: Build qTest payload + route info\nOutputs in item.json: { eventType, payload, qtest_url, qtest_project_id, workitem_id }\nUsed by: Event Switch"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        420,
+        120
+      ],
+      "id": "sticky-build-payload",
+      "name": "Build Payload Note"
+    },
+    {
+      "parameters": {
+        "content": "Event Switch\nPurpose: Route by eventType → Created / Updated / Deleted\nInputs: item.json.eventType\nOutputs: 3 branches"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        680,
+        120
+      ],
+      "id": "sticky-switch",
+      "name": "Event Switch Note"
+    },
+    {
+      "parameters": {
+        "content": "Create Flow\nNodes: Create-HTTP Request\nPurpose: POST requirement to qTest\nInput: payload from Build Dynamic Payload\nOutput: created requirement response"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        940,
+        0
+      ],
+      "id": "sticky-create-flow",
+      "name": "Create Flow Note"
+    },
+    {
+      "parameters": {
+        "content": "Update Flow\nSequence: Search Req → Extract Req Id (JS) → Req Found? → Update-HTTP Request\nPurpose: Locate requirement by Azure_DevOps_ID, update fields if found"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        940,
+        240
+      ],
+      "id": "sticky-update-flow",
+      "name": "Update Flow Note"
+    },
+    {
+      "parameters": {
+        "content": "Delete Flow\nSequence: Search Req → Extract Req Id (JS) → Req Found? → Delete-HTTP Request\nPurpose: Locate requirement by Azure_DevOps_ID and delete if present"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        940,
+        440
+      ],
+      "id": "sticky-delete-flow",
+      "name": "Delete Flow Note"
+    },
+    {
+      "parameters": {
+        "content": "Credentials & Error Notes\nCredentials: httpBearerAuth credential named 'Bearer Auth account'\nErrors: HTTP requests return JSON/text — consider adding error-handling or a Logger node for failures"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1280,
+        -40
+      ],
+      "id": "sticky-creds-errors",
+      "name": "Credentials & Errors"
+    },
+    {
+      "parameters": {
         "method": "POST",
-        "url": "={{ $json.qtest_url }}/api/v3/projects/{{ $json.qtest_project_id }}/requirements",
+        "url": "={{ $json.qtest_url }}/api/v3/projects/{{ $json.qtest_project_id }}/requirementss",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpBearerAuth",
         "sendQuery": true,
@@ -37,18 +154,20 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        928,
-        128
+        1072,
+        0
       ],
       "id": "aa7039d8-9f29-42ff-995f-e37cbad20041",
       "name": "Create-HTTP Request",
-      "retryOnFail": false,
+      "retryOnFail": true,
+      "waitBetweenTries": 2000,
       "credentials": {
         "httpBearerAuth": {
           "id": "E8FCpJn3yP6SRy7U",
           "name": "Bearer Auth account"
         }
-      }
+      },
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
@@ -82,7 +201,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        1568,
+        1856,
         256
       ],
       "id": "ef372d32-ba02-421a-b3a5-a85ab3018cab",
@@ -129,7 +248,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        1568,
+        1856,
         448
       ],
       "id": "bbc00cb1-b7f1-4817-8312-bc35bfd641e1",
@@ -164,7 +283,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        928,
+        1216,
         464
       ],
       "id": "937ddee6-c01a-4c9d-986f-8e2b4df699cc",
@@ -183,7 +302,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1136,
+        1424,
         464
       ],
       "id": "e230ecab-0204-40e4-bd50-e2b70fe6ceaa",
@@ -216,7 +335,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1344,
+        1632,
         464
       ],
       "id": "99d872c9-681e-47bd-b993-179d6585055d",
@@ -309,7 +428,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.3,
       "position": [
-        640,
+        848,
         256
       ],
       "id": "a9e84a2d-edd6-4875-b8f5-2493ac38a43b",
@@ -329,7 +448,7 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        16,
+        240,
         272
       ],
       "id": "aaf1f111-bf89-4e98-8c7b-0db015adff32",
@@ -360,7 +479,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        928,
+        1216,
         272
       ],
       "id": "37172bcd-42f4-4357-8d0d-b79ca20c964d",
@@ -379,7 +498,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1136,
+        1424,
         272
       ],
       "id": "be8641f0-272c-4037-93c1-9c461670f8a4",
@@ -412,7 +531,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1344,
+        1632,
         272
       ],
       "id": "d8a05c69-f107-4cbb-bb86-732f04132a53",
@@ -425,7 +544,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        224,
+        432,
         272
       ],
       "id": "08628cff-61aa-4184-be93-8bf652dbf9a1",
@@ -433,23 +552,415 @@
     },
     {
       "parameters": {
-        "jsCode": "// Configuration for Project 1 ONLY\n// No credentials here - just field mappings\nconst config = {\n  \"nodeautomation\": { \n    qtest_project_id: 23379, \n    qtest_url: \"https://office000test.qtestnet.com\", \n    qtest_token_name: \"qTest demo Project API\", \n    field_mappings: { \n      description: 2272333, \n      azure_devops_id: 2274114, \n      ado_url: 2272414, \n      created_by: 2273528 \n    }, \n    parent_requirement_id: 5190560, \n    default_status: \"Draft\" \n  }, \n  \"nodeautomation2\": { \n    qtest_project_id: 23514, \n    qtest_url: \"https://office000test.qtestnet.com\", \n    qtest_token: \"token_for_project2\", \n    field_mappings: { \n      description: 2285539, \n      azure_devops_id: 2285607, \n      ado_url: 2285602, \n      created_by: 2285600 \n    }, \n    parent_requirement_id: 5198870, \n    default_status: \"New\" \n  }\n};\n\n// Get webhook data\nconst webhookData = $input.first().json.webhookData;\nconst workItem = webhookData.resource;\nconst projectName = $input.first().json.azureProjectName;\n\nlet name = \"  \";\nlet desc = \"  \";\nlet workitemid = -1;\n\nif(webhookData.eventType===\"workitem.updated\"){\n  name = workItem.revision.fields[\"System.Title\"];\n  desc = workItem.revision.fields[\"System.Description\"];\n  workitemid = workItem.workItemId.toString()|| -1;\n}else{\n  name = workItem.fields[\"System.Title\"];\n  desc = workItem.fields[\"System.Description\"];\n  workitemid = workItem.id;\n}\n\n// Build qTest payload\nconst qTestPayload = {\n  name: name || '  ', \n  parent_id: config[projectName].parent_requirement_id, \n  properties: [ \n    { \n      field_id: config[projectName].field_mappings.description, \n      field_name: \"Description\",\n      field_value: desc || '  '\n    }, \n    { \n      field_id: config[projectName].field_mappings.azure_devops_id, \n      field_name: \"Azure_DevOps_ID\",\n      field_value: workitemid\n    }, \n    { \n      field_id: config[projectName].field_mappings.ado_url, \n      field_name: \"ADO Link\",\n      field_value: workItem._links?.html?.href || \"https://dev.azure.com/\" \n    }, \n    { \n      field_id: config[projectName].field_mappings.created_by, \n      field_name: \"Created By\",\n      field_value: String(workItem.fields['System.CreatedBy']) || ''\n    } \n  ] \n};\n\nreturn {\n  json: {\n    eventType: $input.first().json.eventType,\n    payload: qTestPayload,\n    qtest_url: config[projectName].qtest_url,\n    qtest_project_id: config[projectName].qtest_project_id,\n    workitem_id: workitemid\n  }\n};"
+        "jsCode": "// Configuration for Project 1 ONLY\n// No credentials here - just field mappings\nconst config = {\n  \"nodeautomation\": { \n    qtest_project_id: 23379, \n    qtest_url: \"https://office000test.qtestnet.com\", \n    qtest_token_name: \"qTest demo Project API\", \n    field_mappings: { \n      description: 2272333, \n      azure_devops_id: 2274114, \n      ado_url: 2272414, \n      created_by: 2273528 \n    }, \n    parent_requirement_id: 5190560, \n    default_status: \"Draft\" \n  }, \n  \"FabrikamCloud\": { \n    qtest_project_id: 23514, \n    qtest_url: \"https://office000test.qtestnet.com\", \n    qtest_token: \"token_for_project2\", \n    field_mappings: { \n      description: 2285539, \n      azure_devops_id: 2285607, \n      ado_url: 2285602, \n      created_by: 2285600 \n    }, \n    parent_requirement_id: 5198870, \n    default_status: \"New\" \n  }\n};\n\n// Toggle manual error injection for testing\nconst simulateManualError = false; // Set to true for testing\nif (simulateManualError) {\n  throw new Error('Manual error injected for retry test!');\n}\n\nconst simulateInvalidUrl = false; // Set to true for URL error test\nif (simulateInvalidUrl) {\n  config[\"FabrikamCloud\"].qtest_url += '/INVALID_PATH_SEGMENT';\n}\n\n\n\n// Get webhook data\nconst webhookData = $input.first().json.webhookData;\nconst workItem = webhookData.resource;\nconst projectName = $input.first().json.azureProjectName;\nconst errorSim = $input.first().json.errorSimulation;\n\n\n\nlet name = \"  \";\nlet desc = \"  \";\nlet workitemid = -1;\n\nif(webhookData.eventType===\"workitem.updated\"){\n  name = workItem.revision.fields[\"System.Title\"];\n  desc = workItem.revision.fields[\"System.Description\"];\n  workitemid = workItem.workItemId.toString()|| -1;\n}else{\n  name = workItem.fields[\"System.Title\"];\n  desc = workItem.fields[\"System.Description\"];\n  workitemid = workItem.id;\n}\n\n// Build qTest payload\nconst qTestPayload = {\n  name: name || '  ', \n  parent_id: config[projectName].parent_requirement_id, \n  properties: [ \n    { \n      field_id: config[projectName].field_mappings.description, \n      field_name: \"Description\",\n      field_value: desc || '  '\n    }, \n    { \n      field_id: config[projectName].field_mappings.azure_devops_id, \n      field_name: \"Azure_DevOps_ID\",\n      field_value: workitemid\n    }, \n    { \n      field_id: config[projectName].field_mappings.ado_url, \n      field_name: \"ADO Link\",\n      field_value: workItem._links?.html?.href || \"https://dev.azure.com/\" \n    }, \n    { \n      field_id: config[projectName].field_mappings.created_by, \n      field_name: \"Created By\",\n      field_value: String(workItem.fields['System.CreatedBy']) || ''\n    } \n  ] \n};\n\n\n\nreturn {\n  json: {\n    eventType: $input.first().json.eventType,\n    payload: qTestPayload,\n    qtest_url: config[projectName].qtest_url,\n    qtest_project_id: config[projectName].qtest_project_id,\n    workitem_id: workitemid,\n    errorSimulation: errorSim,\n    retryCount: $input.first().json.retryCount || 0,\n    projectName: $input.first().json.azureProjectName,\n    projectConfig: config\n  }\n};"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        448,
+        656,
         272
       ],
       "id": "082ec9a1-2d8b-45f6-898f-112526a92da2",
       "name": "Build Dynamic Payload - JS"
+    },
+    {
+      "parameters": {
+        "jsCode": "const now = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }).slice(0,19).replace(\"T\",\" \");\nconst data = $input.first().json;\nconst project = data.original_data.projectConfig?.azure_project_name || data.original_data.projectName || '';\nconst qtest_project_id = data.original_data.qtest_project_id || '';\nconst qtest_url = data.original_data.qtest_url || data.qtest_url || '';\nconst msg = data.error_message || \"\";\n\nreturn {\n  json: {\n    Timestamp: now,\n    Event_Type: data.operation || 'unknown',\n    Project_Name: project,\n    Work_Item_ID: data.original_data.workitem_id || '',\n    Operation: data.operation || '',\n    Error_Code: data.status_code || '',\n    Error_Message: msg,\n    Attempts: data.attempts || data.retry_count || 0,\n    Status: 'ERROR',\n    qTest_Requirement_ID: data.original_data.workitem_id || '',\n    qTest_Project_ID: qtest_project_id,\n    qTest_URL: qtest_url\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1728,
+        64
+      ],
+      "id": "67a147d5-58c4-4c31-a038-a66f687823f4",
+      "name": "Error Logging Node"
+    },
+    {
+      "parameters": {
+        "jsCode": "const now = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }).slice(0,19).replace(\"T\",\" \");\nconst data = $input.first().json;\nconst project = $('Event Switch').first().json.projectName || '';\nconst qtest_project_id = $('Event Switch').first().json.qtest_project_id || '';\nconst qtest_url = $input.first().json.original_data.links[0].href || '';\nreturn {\n  json: {\n    Timestamp: now,\n    Event_Type: data.operation || 'unknown',\n    Project_Name: project,\n    Work_Item_ID: $('Event Switch').first().json.workitem_id || '',\n    Operation: data.operation || '',\n    Attempts: data.attempts || 1,\n    Status: 'SUCCESS',\n    qTest_Requirement_ID: $input.first().json.qtest_requirement_id || '',\n    qTest_Project_ID: qtest_project_id,\n    req_parent_id: $input.first().json.original_data.parent_id || '',\n    qTest_requirement_URL: qtest_url\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1728,
+        -112
+      ],
+      "id": "48d068f5-1a06-44f9-91a1-8a48839fc4af",
+      "name": "Success Logging Node"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1BMQqMpBQ3M3tDj_yXCMqF0ZtFtQvxCh7Q8dXEVW2O10",
+          "mode": "list",
+          "cachedResultName": "ADO-qTest Logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BMQqMpBQ3M3tDj_yXCMqF0ZtFtQvxCh7Q8dXEVW2O10/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 829971239,
+          "mode": "list",
+          "cachedResultName": "Errors",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BMQqMpBQ3M3tDj_yXCMqF0ZtFtQvxCh7Q8dXEVW2O10/edit#gid=829971239"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $json.Timestamp }}",
+            "Event Type": "={{ $json.Event_Type }}",
+            "Project Name": "={{ $json.Project_Name }}",
+            "Work Item ID": "={{ $json.Work_Item_ID }}",
+            "Operation": "={{ $json.Operation }}",
+            "Error Code": "={{ $json.Error_Code }}",
+            "Error Message": "={{ $json.Error_Message }}",
+            "Attempts": "={{ $json.Attempts }}",
+            "Status": "={{ $json.Status }}",
+            "qTest Project ID": "={{ $json.qTest_Project_ID }}",
+            "qTest URL": "={{ $json.qTest_URL }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Event Type",
+              "displayName": "Event Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Project Name",
+              "displayName": "Project Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Work Item ID",
+              "displayName": "Work Item ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Operation",
+              "displayName": "Operation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Error Code",
+              "displayName": "Error Code",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Error Message",
+              "displayName": "Error Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Attempts",
+              "displayName": "Attempts",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "qTest Project ID",
+              "displayName": "qTest Project ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "qTest URL",
+              "displayName": "qTest URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1936,
+        64
+      ],
+      "id": "332cab2d-63a7-4d00-aeb6-9cc6ef8bfa62",
+      "name": "Add Failure Logs to Worksheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "st2ZXqgfMSCKNZCh",
+          "name": "qTest Log Sheet"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1BMQqMpBQ3M3tDj_yXCMqF0ZtFtQvxCh7Q8dXEVW2O10",
+          "mode": "list",
+          "cachedResultName": "ADO-qTest Logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BMQqMpBQ3M3tDj_yXCMqF0ZtFtQvxCh7Q8dXEVW2O10/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sucesses",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BMQqMpBQ3M3tDj_yXCMqF0ZtFtQvxCh7Q8dXEVW2O10/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $json.Timestamp }}",
+            "Event Type": "={{ $json.Event_Type }}",
+            "Project Name": "={{ $json.Project_Name }}",
+            "Work Item ID": "={{ $json.Work_Item_ID }}",
+            "Operation": "={{ $json.Operation }}",
+            "Requirement ID": "={{ $json.qTest_Requirement_ID }}",
+            "Requirement Parent ID": "={{ $json.req_parent_id }}",
+            "Attempts": "={{ $json.Attempts }}",
+            "Status": "={{ $json.Status }}",
+            "qTest Project ID": "={{ $json.qTest_Project_ID }}",
+            "qTest Requirement URL": "={{ $json.qTest_requirement_URL }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Event Type",
+              "displayName": "Event Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Project Name",
+              "displayName": "Project Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Work Item ID",
+              "displayName": "Work Item ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Operation",
+              "displayName": "Operation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Requirement ID",
+              "displayName": "Requirement ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Requirement Parent ID",
+              "displayName": "Requirement Parent ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Attempts",
+              "displayName": "Attempts",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "qTest Project ID",
+              "displayName": "qTest Project ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "qTest Requirement URL",
+              "displayName": "qTest Requirement URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1936,
+        -112
+      ],
+      "id": "d15ac16b-3c0e-4393-9217-8f692ffd1a81",
+      "name": "Add Success Logs to Worksheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "st2ZXqgfMSCKNZCh",
+          "name": "qTest Log Sheet"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Check if HTTP request succeeded or failed\n\nconst httpResponse = $input.first().json;\nconst previousData = $input.item.json;\n\n// Check if response indicates success\nconst isSuccess = !httpResponse.error && httpResponse.id;\n\nif (isSuccess) {\n  console.log('✅ Successfully created requirement:', httpResponse.id);\n  \n  return {\n    json: {\n      success: true,\n      operation: 'create',\n      azure_work_item_id: previousData.azure_work_item_id,\n      qtest_requirement_id: httpResponse.id,\n      qtest_requirement_name: httpResponse.name,\n      attempts: previousData.retryCount + 1 || 1,\n      original_data: previousData\n    }\n  };\n} else {\n  // Extract error details\n  const errorMessage = httpResponse.error?.message || \n                      httpResponse.message || \n                      'Unknown error occurred';\n  \n  const statusCode = httpResponse.statusCode || \n                    httpResponse.error?.statusCode || \n                    500;\n  \n  console.log('❌ HTTP Request failed');\n  console.log('Status Code:', statusCode);\n  console.log('Error:', errorMessage);\n  \n  // Determine if error is retryable\n  const retryableErrors = [429, 500, 502, 503, 504];\n  const isRetryable = retryableErrors.includes(statusCode) || \n                     errorMessage.includes('ETIMEDOUT') ||\n                     errorMessage.includes('ECONNREFUSED') ||\n                     errorMessage.includes('ENOTFOUND');\n  \n  return {\n    json: {\n      success: false,\n      error: true,\n      operation: 'create',\n      error_message: errorMessage,\n      status_code: statusCode,\n      is_retryable: isRetryable,\n      retry_count: previousData.retryCount || 0,\n      max_retries: previousData.errorSimulation?.MAX_RETRIES || 3,\n      azure_work_item_id: previousData.azure_work_item_id,\n      original_data: previousData\n    }\n  };\n}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1328,
+        0
+      ],
+      "id": "ba2b8f4a-d37c-449e-9a4f-09e9d53e01cf",
+      "name": "Check For Response Status"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f1aaa92d-3fb5-4959-98de-2b592899c88e",
+              "leftValue": "={{ $json.success }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1520,
+        0
+      ],
+      "id": "0bc371b3-d499-466a-b888-d7323619b9a0",
+      "name": "If success or failed?"
     }
   ],
-  "pinData": {},
   "connections": {
     "Create-HTTP Request": {
       "main": [
-        []
+        [
+          {
+            "node": "Check For Response Status",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Check For Response Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Search Req-HTTP Request - Delete": {
@@ -575,18 +1086,116 @@
           }
         ]
       ]
+    },
+    "Success Logging Node": {
+      "main": [
+        [
+          {
+            "node": "Add Success Logs to Worksheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Logging Node": {
+      "main": [
+        [
+          {
+            "node": "Add Failure Logs to Worksheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check For Response Status": {
+      "main": [
+        [
+          {
+            "node": "If success or failed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If success or failed?": {
+      "main": [
+        [
+          {
+            "node": "Success Logging Node",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error Logging Node",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
-  "active": true,
   "settings": {
     "executionOrder": "v1",
     "callerPolicy": "workflowsFromSameOwner",
     "availableInMCP": false
   },
-  "versionId": "a5e4d706-25bc-4f75-b129-b9fc5b4be380",
+  "staticData": null,
   "meta": {
-    "instanceId": "3c3b501e61c0ae6328fd408bc78270dbae3cfb1e7f991ea60d8bbb0d3771150e"
+    "templateCredsSetupCompleted": true
   },
-  "id": "scdz6TmeZ8NXWruT",
-  "tags": []
+  "pinData": {},
+  "versionId": "39f9a34c-bce1-43d8-bf23-88e70a80b800",
+  "triggerCount": 1,
+  "tags": [],
+  "parentFolder": null,
+  "homeProject": {
+    "id": "m1x7bADOuDCb5ELQ",
+    "type": "personal",
+    "name": "Abhishek Singh <abhishek_s@pursuitsoftware.com>",
+    "icon": null
+  },
+  "sharedWithProjects": [],
+  "usedCredentials": [
+    {
+      "id": "E8FCpJn3yP6SRy7U",
+      "name": "Bearer Auth account",
+      "type": "httpBearerAuth",
+      "currentUserHasAccess": true,
+      "homeProject": {
+        "id": "m1x7bADOuDCb5ELQ",
+        "type": "personal",
+        "name": "Abhishek Singh <abhishek_s@pursuitsoftware.com>",
+        "icon": null
+      },
+      "sharedWithProjects": []
+    },
+    {
+      "id": "st2ZXqgfMSCKNZCh",
+      "name": "qTest Log Sheet",
+      "type": "googleSheetsOAuth2Api",
+      "currentUserHasAccess": true,
+      "homeProject": {
+        "id": "m1x7bADOuDCb5ELQ",
+        "type": "personal",
+        "name": "Abhishek Singh <abhishek_s@pursuitsoftware.com>",
+        "icon": null
+      },
+      "sharedWithProjects": []
+    }
+  ],
+  "scopes": [
+    "workflow:create",
+    "workflow:delete",
+    "workflow:execute",
+    "workflow:list",
+    "workflow:move",
+    "workflow:read",
+    "workflow:share",
+    "workflow:update"
+  ]
 }

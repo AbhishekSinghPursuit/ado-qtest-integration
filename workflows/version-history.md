@@ -41,3 +41,16 @@
 - The `Code Node` for loading the project details is changed to Load the configurations of the different projects
 - Also updated the dynamic payload creating `Code Node` so that it can create payload according to the specific project configuration
  
+## Version 3.0.0 (2025-11-11) 
+**Author:** Abhishek Singh
+
+### Added
+- In this version I have impelemented the Custom Error  (Manual error injection or Invalid URL simulations) handling in the n8n workflow for handling them efficiently and logging them into a `Google Sheet`
+- Also I am using the `retry executions on failure` feature of the n8n HTTP Request node in the workflow, if it still fails to execute its task then it sends the output(error/succuss) to the further nodes
+- Extrended the `Create` branch with multple nodes that checks for any errors come while executions in the `Create` branch and if that happens, the error or success executions are being logged into a google sheet using `Google Sheet` node
+- Added some sticky notes in the workflow so that anyone new to this workflow can get an idea about the workflow and its node's working
+
+### Changes
+- `Create` branch has been modified with error handling and logging nodes.
+
+ 
