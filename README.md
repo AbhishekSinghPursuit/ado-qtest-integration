@@ -17,7 +17,13 @@ This workflow shows how Azure DevOps automatically connects to qTest through n8n
 [Workflow Documentation](/docs/workflow-documentation.md)
 
 ## n8n workflow
+**v3.0.0**
+<img width="1800" height="868" alt="Screenshot 2025-11-13 101709" src="https://github.com/user-attachments/assets/7b1ceba1-6b97-4746-baf5-a5e6a5b27791" />
+**v2.0.0**
 <img width="1723" height="929" alt="Screenshot 2025-11-12 181345" src="https://github.com/user-attachments/assets/6fd7e52c-8ee5-4db9-8916-bd3339a4c811" />
+**v1.0.0**
+<img width="1509" height="425" alt="Screenshot 2025-11-11 113704" src="https://github.com/user-attachments/assets/c3d9d7ed-078e-4583-8434-5c43eb84f90f" />
+
 
 
 
