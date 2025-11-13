@@ -47,10 +47,23 @@
 ### Added
 - In this version I have impelemented the Custom Error  (Manual error injection or Invalid URL simulations) handling in the n8n workflow for handling them efficiently and logging them into a `Google Sheet`
 - Also I am using the `retry executions on failure` feature of the n8n HTTP Request node in the workflow, if it still fails to execute its task then it sends the output(error/succuss) to the further nodes
-- Extrended the `Create` branch with multple nodes that checks for any errors come while executions in the `Create` branch and if that happens, the error or success executions are being logged into a google sheet using `Google Sheet` node
+- Extended the `Create` branch with multple nodes that checks for any errors coming during executions in the `Create` branch and if that happens, the error or success executions are being logged into a google sheet using `Google Sheet` node
 - Added some sticky notes in the workflow so that anyone new to this workflow can get an idea about the workflow and its node's working
 
 ### Changes
 - `Create` branch has been modified with error handling and logging nodes.
+ 
+## Version 3.0.1 (2025-11-12) 
+**Author:** Abhishek Singh
+
+### Added
+- In this version I have impelemented the Error simulation and handling of **Payload Creation for HTTP Requests** in the further `create/update/delete` branches, aslo added a node to log this failure into a `Google Sheet`
+- Extended the `Update` and `Delete` branches with error check nodes (`Is search succeeded? Update` and `Is search succeeded? Delete`) that check for any errors coming during executions in both the branches and if that happens, the error or success executions are being logged into a google sheet using `Google Sheet` node
+- Added some sticky notes in the workflow so that anyone new to this workflow can get an idea about the workflow and its node's working
+
+### Changes
+- `Update` and `Delete` branches has been modified with error handling and logging nodes
+- Also updateed the `Extract Req Id` nodes for both the update and delete branches to get the response of `Search HTTP Request` nodes
+
 
  

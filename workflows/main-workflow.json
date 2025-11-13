@@ -3,125 +3,149 @@
   "nodes": [
     {
       "parameters": {
-        "content": "# Azure DevOps → qTest Integration\n\nPurpose: Sync ADO work items to qTest requirements.\nTriggers: workitem.created, workitem.updated, workitem.deleted\nFlows: Create → Update → Delete\nAuth: qTest Bearer token (stored credential)\nNotes: Config-driven per ADO project"
+        "content": "# Azure DevOps → qTest Integration\n\n**Purpose:** Sync ADO work items to qTest requirements.\n**Triggers:** workitem.created, workitem.updated, workitem.deleted\n**Flows:** Create → Update → Delete\n**Auth:** qTest Bearer token (stored credential)\n**Notes:** Config-driven per ADO project",
+        "height": 192,
+        "width": 592,
+        "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -120,
-        -200
+        384,
+        -768
       ],
-      "id": "sticky-workflow-overview",
+      "id": "0339338e-89b8-4cde-bc34-8cde9f22ef12",
       "name": "Overview"
     },
     {
       "parameters": {
-        "content": "Webhook Node\nPurpose: Receive Azure DevOps service hooks\nType: webhook (POST)\nPath: azure-dev-ops-task\nOutput: raw webhook body (eventType + resource)\nResponseMode: lastNode"
+        "content": "## Webhook Node\n**Purpose:** Receive Azure DevOps service hooks\n**Type:** webhook (POST)\n**Path:** azure-dev-ops-task\n**Output:** raw webhook body (eventType + resource)\n**ResponseMode:** lastNode",
+        "height": 192,
+        "width": 256,
+        "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -40,
-        120
+        400,
+        -304
       ],
-      "id": "sticky-webhook",
+      "id": "d53e3153-71ea-41c0-a5d7-c0dd3ab14fdb",
       "name": "Webhook Note"
     },
     {
       "parameters": {
-        "content": "Load Configurations (JS)\nPurpose: Determine ADO project mapping\nOutput: azureProjectName\nNotes: No credentials loaded here — only selects config block"
+        "content": "## Load Configurations (JS)\n**Purpose:** Determine ADO project mapping\n**Output:** azureProjectName\n**Notes:** No credentials loaded here",
+        "height": 128,
+        "width": 320
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        160,
-        120
+        800,
+        -112
       ],
-      "id": "sticky-load-config",
+      "id": "c2b5815a-c659-4328-99fe-aba162f4566d",
       "name": "Config Selection"
     },
     {
       "parameters": {
-        "content": "Build Dynamic Payload (JS)\nPurpose: Build qTest payload + route info\nOutputs in item.json: { eventType, payload, qtest_url, qtest_project_id, workitem_id }\nUsed by: Event Switch"
+        "content": "## Build Dynamic Payload (JS)\n**Purpose:** Build qTest payload + route info\n**Outputs in item.json:** { eventType, payload, qtest_url, qtest_project_id, workitem_id }\n**Used by:** Event Switch",
+        "height": 144,
+        "width": 336
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        420,
-        120
+        1008,
+        -464
       ],
-      "id": "sticky-build-payload",
+      "id": "b097a656-e7e8-4582-b477-f9098f9ac054",
       "name": "Build Payload Note"
     },
     {
       "parameters": {
-        "content": "Event Switch\nPurpose: Route by eventType → Created / Updated / Deleted\nInputs: item.json.eventType\nOutputs: 3 branches"
+        "content": "## Event Switch\n**Purpose:** Route by eventType → Created / Updated / Deleted\n**Inputs:** item.json.eventType\n**Outputs:** 3 branches",
+        "height": 144,
+        "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        680,
-        120
+        1472,
+        -480
       ],
-      "id": "sticky-switch",
+      "id": "975cb750-0b98-4897-8881-9ef9e6f0e8fb",
       "name": "Event Switch Note"
     },
     {
       "parameters": {
-        "content": "Create Flow\nNodes: Create-HTTP Request\nPurpose: POST requirement to qTest\nInput: payload from Build Dynamic Payload\nOutput: created requirement response"
+        "content": "### Create Flow\n**Nodes:** Create-HTTP Request\n**Purpose:** POST requirement to qTest\n**Input:** payload from Build Dynamic Payload\n**Output:** created requirement response",
+        "height": 128,
+        "width": 336,
+        "color": 6
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        940,
-        0
+        1856,
+        -768
       ],
-      "id": "sticky-create-flow",
+      "id": "b4d997eb-d2a7-420c-8f71-1736457b162a",
       "name": "Create Flow Note"
     },
     {
       "parameters": {
-        "content": "Update Flow\nSequence: Search Req → Extract Req Id (JS) → Req Found? → Update-HTTP Request\nPurpose: Locate requirement by Azure_DevOps_ID, update fields if found"
+        "content": "### Update Flow\n**Sequence:** Search Req → Extract Req Id (JS) → Req Found? → Update-HTTP Request\n**Purpose:** Locate requirement by Azure_DevOps_ID, update fields if found",
+        "height": 128,
+        "width": 384,
+        "color": 6
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        940,
-        240
+        1856,
+        -432
       ],
-      "id": "sticky-update-flow",
+      "id": "ecf233ae-2033-4f1a-a35e-f2f05e4a7467",
       "name": "Update Flow Note"
     },
     {
       "parameters": {
-        "content": "Delete Flow\nSequence: Search Req → Extract Req Id (JS) → Req Found? → Delete-HTTP Request\nPurpose: Locate requirement by Azure_DevOps_ID and delete if present"
+        "content": "### Delete Flow\n**Sequence:** Search Req → Extract Req Id (JS) → Req Found? → Delete-HTTP Request\n**Purpose:** Locate requirement by Azure_DevOps_ID and delete if present",
+        "height": 128,
+        "width": 384,
+        "color": 6
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        940,
-        440
+        1872,
+        -96
       ],
-      "id": "sticky-delete-flow",
+      "id": "36a6b74a-4aea-447b-b2f6-c6b588ee51e5",
       "name": "Delete Flow Note"
     },
     {
       "parameters": {
-        "content": "Credentials & Error Notes\nCredentials: httpBearerAuth credential named 'Bearer Auth account'\nErrors: HTTP requests return JSON/text — consider adding error-handling or a Logger node for failures"
+        "content": "## Credentials & Error Nodes\n**Credentials:** httpBearerAuth credential named 'Bearer Auth account'\n**Errors:** HTTP requests return JSON/text - consider adding error-handling or a Logger node for failures\n**Logs:** Successful and failed executions are being logged into a Google Sheet",
+        "height": 192,
+        "width": 336,
+        "color": 3
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1280,
-        -40
+        1008,
+        -768
       ],
-      "id": "sticky-creds-errors",
+      "id": "67898664-21b5-427d-9911-a3a15c320958",
       "name": "Credentials & Errors"
     },
     {
       "parameters": {
         "method": "POST",
-        "url": "={{ $json.qtest_url }}/api/v3/projects/{{ $json.qtest_project_id }}/requirementss",
+        "url": "={{ $json.qtest_url }}/api/v3/projects/{{ $json.qtest_project_id }}/requirements",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpBearerAuth",
         "sendQuery": true,
@@ -154,16 +178,16 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        1072,
-        0
+        1856,
+        -608
       ],
-      "id": "aa7039d8-9f29-42ff-995f-e37cbad20041",
+      "id": "de16820f-8470-4fb6-8d06-662880350b20",
       "name": "Create-HTTP Request",
       "retryOnFail": true,
       "waitBetweenTries": 2000,
       "credentials": {
         "httpBearerAuth": {
-          "id": "E8FCpJn3yP6SRy7U",
+          "id": "hueUfEaBjQGm54CR",
           "name": "Bearer Auth account"
         }
       },
@@ -201,14 +225,14 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        1856,
-        256
+        2720,
+        -336
       ],
-      "id": "ef372d32-ba02-421a-b3a5-a85ab3018cab",
+      "id": "4d01f4f9-fccb-4327-9170-424baa7ca8d1",
       "name": "Update-HTTP Request",
       "credentials": {
         "httpBearerAuth": {
-          "id": "E8FCpJn3yP6SRy7U",
+          "id": "hueUfEaBjQGm54CR",
           "name": "Bearer Auth account"
         }
       }
@@ -248,14 +272,14 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        1856,
-        448
+        2720,
+        16
       ],
-      "id": "bbc00cb1-b7f1-4817-8312-bc35bfd641e1",
+      "id": "695aa37d-261b-4fbd-9353-b460a14fd09d",
       "name": "Delete-HTTP Request",
       "credentials": {
         "httpBearerAuth": {
-          "id": "E8FCpJn3yP6SRy7U",
+          "id": "hueUfEaBjQGm54CR",
           "name": "Bearer Auth account"
         }
       }
@@ -283,29 +307,30 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        1216,
-        464
+        1872,
+        64
       ],
-      "id": "937ddee6-c01a-4c9d-986f-8e2b4df699cc",
+      "id": "a08e6fe3-3559-4261-96b4-130625fa2e7e",
       "name": "Search Req-HTTP Request - Delete",
       "credentials": {
         "httpBearerAuth": {
-          "id": "E8FCpJn3yP6SRy7U",
+          "id": "hueUfEaBjQGm54CR",
           "name": "Bearer Auth account"
         }
-      }
+      },
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
-        "jsCode": "// Extract requirement ID from search results\nconst searchResults = $input.first().json.items || [];\n\nif (searchResults.length > 0) {\n  const requirement = searchResults[0];\n  \n  // Pass through both the requirement ID and the updated data from Azure DevOps\n  return {\n    json: {\n      requirementId: requirement.id,\n      found: true,\n      azureDevOpsData: $input.first().json.resource // Original Azure DevOps data\n    }\n  };\n} else {\n  return {\n    json: {\n      requirementId: null,\n      found: false,\n      azureDevOpsData: $input.first().json.resource\n    }\n  };\n}\n"
+        "jsCode": "// Extract requirement ID from search results\nconst searchResults = $input.first().json.items || [];\nconst httpResonse = $input.first().json;\n\nif(httpResonse.data){\n  return {\n    json: {\n      data: httpResonse.data,\n      dataFound: true,\n      error_message: httpResonse.data.trim(),\n      status_code: -1,\n      operation: \"searched_for_delete\",\n      original_data: {\n        eventType: $('Event Switch').first().json.eventType,\n        qtest_url: $('Event Switch').first().json.qtest_url,\n        qtest_project_id: $('Event Switch').first().json.qtest_project_id,\n        workitem_id: $('Event Switch').first().json.workitem_id,\n        attempts: $('Event Switch').first().json.retryCount,\n        projectName: $('Event Switch').first().json.projectName,\n      },\n      projectConfig: $('Event Switch').first().json.projectConfig\n    }\n  }\n}\n\nif (searchResults.length > 0) {\n  const requirement = searchResults[0];\n  \n  // Pass through both the requirement ID and the updated data from Azure DevOps\n  return {\n    json: {\n      requirementId: requirement.id,\n      found: true,\n      azureDevOpsData: $input.first().json.resource // Original Azure DevOps data\n    }\n  };\n} else {\n  return {\n    json: {\n      requirementId: null,\n      found: false,\n      azureDevOpsData: $input.first().json.resource\n    }\n  };\n}\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1424,
-        464
+        2080,
+        64
       ],
-      "id": "e230ecab-0204-40e4-bd50-e2b70fe6ceaa",
+      "id": "93d514eb-417c-4d22-8f38-dbcfc1e64b1b",
       "name": "Extract Req Id - JS - Delete"
     },
     {
@@ -335,10 +360,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1632,
-        464
+        2496,
+        32
       ],
-      "id": "99d872c9-681e-47bd-b993-179d6585055d",
+      "id": "56418fc8-dee4-412d-8097-eaf03a12f15e",
       "name": "Req Found? Delete"
     },
     {
@@ -428,10 +453,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.3,
       "position": [
-        848,
-        256
+        1568,
+        -304
       ],
-      "id": "a9e84a2d-edd6-4875-b8f5-2493ac38a43b",
+      "id": "adbee44b-266e-4701-aa07-009762952ceb",
       "name": "Event Switch",
       "alwaysOutputData": false
     },
@@ -448,10 +473,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        240,
-        272
+        720,
+        -272
       ],
-      "id": "aaf1f111-bf89-4e98-8c7b-0db015adff32",
+      "id": "54d6ab52-0a63-442e-91d2-1f5eb075e726",
       "name": "Event Webhook",
       "webhookId": "87b5a185-7ccd-495f-be6e-6ee2a1ad0da3",
       "alwaysOutputData": false
@@ -479,29 +504,31 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        1216,
-        272
+        1856,
+        -288
       ],
-      "id": "37172bcd-42f4-4357-8d0d-b79ca20c964d",
+      "id": "a3ffc5f6-bbc5-45a5-96f3-a2efa39add8b",
       "name": "Search Req-HTTP Request - Update",
+      "alwaysOutputData": false,
       "credentials": {
         "httpBearerAuth": {
-          "id": "E8FCpJn3yP6SRy7U",
+          "id": "hueUfEaBjQGm54CR",
           "name": "Bearer Auth account"
         }
-      }
+      },
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
-        "jsCode": "// Extract requirement ID from search results\nconst searchResults = $input.first().json.items || [];\n\nif (searchResults.length > 0) {\n  const requirement = searchResults[0];\n  \n  // Pass through both the requirement ID and the updated data from Azure DevOps\n  return {\n    json: {\n      requirementId: requirement.id,\n      found: true,\n      azureDevOpsData: $input.first().json.resource // Original Azure DevOps data\n    }\n  };\n} else {\n  return {\n    json: {\n      requirementId: null,\n      found: false,\n      azureDevOpsData: $input.first().json.resource\n    }\n  };\n}\n"
+        "jsCode": "// Extract requirement ID from search results\nconst searchResults = $input.first().json.items || [];\nconst httpResonse = $input.first().json;\n\nif(httpResonse.data){\n  return {\n    json: {\n      data: httpResonse.data,\n      dataFound: true,\n      error_message: httpResonse.data.trim(),\n      status_code: -1,\n      operation: \"searched_for_update\",\n      original_data: {\n        eventType: $('Event Switch').first().json.eventType,\n        qtest_url: $('Event Switch').first().json.qtest_url,\n        qtest_project_id: $('Event Switch').first().json.qtest_project_id,\n        workitem_id: $('Event Switch').first().json.workitem_id,\n        attempts: $('Event Switch').first().json.retryCount,\n        projectName: $('Event Switch').first().json.projectName,\n      },\n      projectConfig: $('Event Switch').first().json.projectConfig\n    }\n  }\n}\n\nif (searchResults.length > 0) {\n  const requirement = searchResults[0];\n  \n  // Pass through both the requirement ID and the updated data from Azure DevOps\n  return {\n    json: {\n      requirementId: requirement.id,\n      found: true,\n      azureDevOpsData: $input.first().json.resource // Original Azure DevOps data\n    }\n  };\n} else {\n  return {\n    json: {\n      requirementId: null,\n      found: false,\n      azureDevOpsData: $input.first().json.resource\n    }\n  };\n}\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1424,
-        272
+        2128,
+        -288
       ],
-      "id": "be8641f0-272c-4037-93c1-9c461670f8a4",
+      "id": "7c46bdb8-93ad-4c80-ad88-62b73ce9f0ea",
       "name": "Extract Req Id - JS - Update"
     },
     {
@@ -531,10 +558,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1632,
-        272
+        2512,
+        -320
       ],
-      "id": "d8a05c69-f107-4cbb-bb86-732f04132a53",
+      "id": "af7f335c-af14-4c85-9fe4-4f2a2e53d930",
       "name": "Req Found? Update"
     },
     {
@@ -544,37 +571,24 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        432,
-        272
+        912,
+        -272
       ],
-      "id": "08628cff-61aa-4184-be93-8bf652dbf9a1",
+      "id": "2d093ba4-8c33-4999-b4e8-473304063eca",
       "name": "Load Configurations - JS"
     },
     {
       "parameters": {
-        "jsCode": "// Configuration for Project 1 ONLY\n// No credentials here - just field mappings\nconst config = {\n  \"nodeautomation\": { \n    qtest_project_id: 23379, \n    qtest_url: \"https://office000test.qtestnet.com\", \n    qtest_token_name: \"qTest demo Project API\", \n    field_mappings: { \n      description: 2272333, \n      azure_devops_id: 2274114, \n      ado_url: 2272414, \n      created_by: 2273528 \n    }, \n    parent_requirement_id: 5190560, \n    default_status: \"Draft\" \n  }, \n  \"FabrikamCloud\": { \n    qtest_project_id: 23514, \n    qtest_url: \"https://office000test.qtestnet.com\", \n    qtest_token: \"token_for_project2\", \n    field_mappings: { \n      description: 2285539, \n      azure_devops_id: 2285607, \n      ado_url: 2285602, \n      created_by: 2285600 \n    }, \n    parent_requirement_id: 5198870, \n    default_status: \"New\" \n  }\n};\n\n// Toggle manual error injection for testing\nconst simulateManualError = false; // Set to true for testing\nif (simulateManualError) {\n  throw new Error('Manual error injected for retry test!');\n}\n\nconst simulateInvalidUrl = false; // Set to true for URL error test\nif (simulateInvalidUrl) {\n  config[\"FabrikamCloud\"].qtest_url += '/INVALID_PATH_SEGMENT';\n}\n\n\n\n// Get webhook data\nconst webhookData = $input.first().json.webhookData;\nconst workItem = webhookData.resource;\nconst projectName = $input.first().json.azureProjectName;\nconst errorSim = $input.first().json.errorSimulation;\n\n\n\nlet name = \"  \";\nlet desc = \"  \";\nlet workitemid = -1;\n\nif(webhookData.eventType===\"workitem.updated\"){\n  name = workItem.revision.fields[\"System.Title\"];\n  desc = workItem.revision.fields[\"System.Description\"];\n  workitemid = workItem.workItemId.toString()|| -1;\n}else{\n  name = workItem.fields[\"System.Title\"];\n  desc = workItem.fields[\"System.Description\"];\n  workitemid = workItem.id;\n}\n\n// Build qTest payload\nconst qTestPayload = {\n  name: name || '  ', \n  parent_id: config[projectName].parent_requirement_id, \n  properties: [ \n    { \n      field_id: config[projectName].field_mappings.description, \n      field_name: \"Description\",\n      field_value: desc || '  '\n    }, \n    { \n      field_id: config[projectName].field_mappings.azure_devops_id, \n      field_name: \"Azure_DevOps_ID\",\n      field_value: workitemid\n    }, \n    { \n      field_id: config[projectName].field_mappings.ado_url, \n      field_name: \"ADO Link\",\n      field_value: workItem._links?.html?.href || \"https://dev.azure.com/\" \n    }, \n    { \n      field_id: config[projectName].field_mappings.created_by, \n      field_name: \"Created By\",\n      field_value: String(workItem.fields['System.CreatedBy']) || ''\n    } \n  ] \n};\n\n\n\nreturn {\n  json: {\n    eventType: $input.first().json.eventType,\n    payload: qTestPayload,\n    qtest_url: config[projectName].qtest_url,\n    qtest_project_id: config[projectName].qtest_project_id,\n    workitem_id: workitemid,\n    errorSimulation: errorSim,\n    retryCount: $input.first().json.retryCount || 0,\n    projectName: $input.first().json.azureProjectName,\n    projectConfig: config\n  }\n};"
+        "jsCode": "// Configuration for Project 1 ONLY\n// No credentials here - just field mappings\nconst config = {\n  \"nodeautomation\": { \n    qtest_project_id: 23379, \n    qtest_url: \"https://office000test.qtestnet.com\", \n    qtest_token_name: \"qTest demo Project API\", \n    field_mappings: { \n      description: 2272333, \n      azure_devops_id: 2274114, \n      ado_url: 2272414, \n      created_by: 2273528 \n    }, \n    parent_requirement_id: 5190560, \n    default_status: \"Draft\" \n  }, \n  \"FabrikamCloud\": { \n    qtest_project_id: 23514, \n    qtest_url: \"https://office000test.qtestnet.com\", \n    qtest_token: \"token_for_project2\", \n    field_mappings: { \n      description: 2285539, \n      azure_devops_id: 2285607, \n      ado_url: 2285602, \n      created_by: 2285600 \n    }, \n    parent_requirement_id: 5198870, \n    default_status: \"New\" \n  }\n};\n\n// Toggle manual error injection for testing\nconst simulateManualError = false; // Set to true for testing\nif (simulateManualError) {\n  throw new Error('Manual error injected for retry test!');\n}\n\nconst simulateInvalidUrl = true; // Set to true for URL error test\nif (simulateInvalidUrl) {\n  config[\"FabrikamCloud\"].qtest_url += '/INVALID_PATH_SEGMENT';\n}\n\n\n\n// Get webhook data\nconst webhookData = $input.first().json.webhookData;\nconst workItem = webhookData.resource;\nconst projectName = $input.first().json.azureProjectName;\nconst errorSim = $input.first().json.errorSimulation;\n\nif (!webhookData || !workItem || !projectName || projectName===''){\n  const now = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }).slice(0,19).replace(\"T\",\" \");\n  const qtest_project_id = (projectName && projectName!==\"\") ? config[projectName].qtest_project_id : -1;\n  const qtest_url = (projectName && projectName!==\"\") ? config[projectName].qtest_url : 'N/A';\n  const logFields = {\n    Timestamp: now,\n    Event_Type: webhookData.eventType || 'unknown',\n    Project_Name: projectName || 'N/A',\n    Work_Item_ID: workItem.id || workItem.workItemId || -1,\n    Operation: webhookData.eventType.split('.')[1] || 'N/A',\n    Error_Code: 'N/A',\n    Error_Message: 'Something bad happened while creating payload!',\n    Attempts: 0,\n    Status: 'ERROR',\n    qTest_Project_ID: qtest_project_id || -1,\n    qTest_URL: qtest_url || 'N/A'\n  };\n  \n  if (!workItem.fields?.['System.Title'] && !workItem.revision.fields?.['System.Title']) {\n    logFields.Error_Message = \"Missing title in Azure DevOps webhook payload\";\n  }\n  \n  // Append to Google Sheets (errors)\n  return { \n    json: {\n      error: true,\n      logFields\n    } \n  };\n}\n\n\n\nlet name = \"  \";\nlet desc = \"  \";\nlet workitemid = -1;\n\nif(webhookData.eventType===\"workitem.updated\"){\n  name = workItem.revision.fields[\"System.Title\"];\n  desc = workItem.revision.fields[\"System.Description\"];\n  workitemid = workItem.workItemId.toString() || -1;\n}else{\n  name = workItem.fields[\"System.Title\"];\n  desc = workItem.fields[\"System.Description\"];\n  workitemid = workItem.id;\n}\n\n// Build qTest payload\nconst qTestPayload = {\n  name: name || '  ', \n  parent_id: config[projectName].parent_requirement_id, \n  properties: [ \n    { \n      field_id: config[projectName].field_mappings.description, \n      field_name: \"Description\",\n      field_value: desc || '  '\n    }, \n    { \n      field_id: config[projectName].field_mappings.azure_devops_id, \n      field_name: \"Azure_DevOps_ID\",\n      field_value: workitemid\n    }, \n    { \n      field_id: config[projectName].field_mappings.ado_url, \n      field_name: \"ADO Link\",\n      field_value: workItem._links?.html?.href || \"https://dev.azure.com/\" \n    }, \n    { \n      field_id: config[projectName].field_mappings.created_by, \n      field_name: \"Created By\",\n      field_value: String(workItem.fields['System.CreatedBy']) || ''\n    } \n  ] \n};\n\n\n\nreturn {\n  json: {\n    error: false,\n    eventType: $input.first().json.eventType,\n    payload: qTestPayload,\n    qtest_url: config[projectName].qtest_url,\n    qtest_project_id: config[projectName].qtest_project_id,\n    workitem_id: workitemid,\n    errorSimulation: errorSim,\n    retryCount: $input.first().json.retryCount || 0,\n    projectName: projectName,\n    projectConfig: config\n  }\n};"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        656,
-        272
+        1136,
+        -272
       ],
-      "id": "082ec9a1-2d8b-45f6-898f-112526a92da2",
+      "id": "5442b5e1-4650-4e48-b431-3dd0987f6d92",
       "name": "Build Dynamic Payload - JS"
-    },
-    {
-      "parameters": {
-        "jsCode": "const now = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }).slice(0,19).replace(\"T\",\" \");\nconst data = $input.first().json;\nconst project = data.original_data.projectConfig?.azure_project_name || data.original_data.projectName || '';\nconst qtest_project_id = data.original_data.qtest_project_id || '';\nconst qtest_url = data.original_data.qtest_url || data.qtest_url || '';\nconst msg = data.error_message || \"\";\n\nreturn {\n  json: {\n    Timestamp: now,\n    Event_Type: data.operation || 'unknown',\n    Project_Name: project,\n    Work_Item_ID: data.original_data.workitem_id || '',\n    Operation: data.operation || '',\n    Error_Code: data.status_code || '',\n    Error_Message: msg,\n    Attempts: data.attempts || data.retry_count || 0,\n    Status: 'ERROR',\n    qTest_Requirement_ID: data.original_data.workitem_id || '',\n    qTest_Project_ID: qtest_project_id,\n    qTest_URL: qtest_url\n  }\n};\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        1728,
-        64
-      ],
-      "id": "67a147d5-58c4-4c31-a038-a66f687823f4",
-      "name": "Error Logging Node"
     },
     {
       "parameters": {
@@ -583,10 +597,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1728,
-        -112
+        2448,
+        -720
       ],
-      "id": "48d068f5-1a06-44f9-91a1-8a48839fc4af",
+      "id": "de174e7c-3cee-465b-8055-fe66678d7c20",
       "name": "Success Logging Node"
     },
     {
@@ -731,15 +745,15 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        1936,
-        64
+        2656,
+        -544
       ],
-      "id": "332cab2d-63a7-4d00-aeb6-9cc6ef8bfa62",
+      "id": "71ecc7ce-22e1-48af-9337-541161a5dc2d",
       "name": "Add Failure Logs to Worksheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "st2ZXqgfMSCKNZCh",
-          "name": "qTest Log Sheet"
+          "id": "IyK1i0zXcdUKePIG",
+          "name": "Google Sheets account"
         }
       }
     },
@@ -885,29 +899,29 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        1936,
-        -112
+        2656,
+        -720
       ],
-      "id": "d15ac16b-3c0e-4393-9217-8f692ffd1a81",
+      "id": "eb841b57-0fb8-4d22-b01f-4b1f8d27451f",
       "name": "Add Success Logs to Worksheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "st2ZXqgfMSCKNZCh",
-          "name": "qTest Log Sheet"
+          "id": "IyK1i0zXcdUKePIG",
+          "name": "Google Sheets account"
         }
       }
     },
     {
       "parameters": {
-        "jsCode": "// Check if HTTP request succeeded or failed\n\nconst httpResponse = $input.first().json;\nconst previousData = $input.item.json;\n\n// Check if response indicates success\nconst isSuccess = !httpResponse.error && httpResponse.id;\n\nif (isSuccess) {\n  console.log('✅ Successfully created requirement:', httpResponse.id);\n  \n  return {\n    json: {\n      success: true,\n      operation: 'create',\n      azure_work_item_id: previousData.azure_work_item_id,\n      qtest_requirement_id: httpResponse.id,\n      qtest_requirement_name: httpResponse.name,\n      attempts: previousData.retryCount + 1 || 1,\n      original_data: previousData\n    }\n  };\n} else {\n  // Extract error details\n  const errorMessage = httpResponse.error?.message || \n                      httpResponse.message || \n                      'Unknown error occurred';\n  \n  const statusCode = httpResponse.statusCode || \n                    httpResponse.error?.statusCode || \n                    500;\n  \n  console.log('❌ HTTP Request failed');\n  console.log('Status Code:', statusCode);\n  console.log('Error:', errorMessage);\n  \n  // Determine if error is retryable\n  const retryableErrors = [429, 500, 502, 503, 504];\n  const isRetryable = retryableErrors.includes(statusCode) || \n                     errorMessage.includes('ETIMEDOUT') ||\n                     errorMessage.includes('ECONNREFUSED') ||\n                     errorMessage.includes('ENOTFOUND');\n  \n  return {\n    json: {\n      success: false,\n      error: true,\n      operation: 'create',\n      error_message: errorMessage,\n      status_code: statusCode,\n      is_retryable: isRetryable,\n      retry_count: previousData.retryCount || 0,\n      max_retries: previousData.errorSimulation?.MAX_RETRIES || 3,\n      azure_work_item_id: previousData.azure_work_item_id,\n      original_data: previousData\n    }\n  };\n}\n"
+        "jsCode": "// Check if HTTP request succeeded or failed\n\nconst httpResponse = $input.first().json;\nconst previousData = $input.item.json;\n\n// Check if response indicates success\nconst isSuccess = !httpResponse.error && !httpResponse.data && httpResponse.id;\n\nif (isSuccess) {\n  console.log('✅ Successfully created requirement:', httpResponse.id);\n  \n  return {\n    json: {\n      success: true,\n      operation: 'create',\n      azure_work_item_id: previousData.azure_work_item_id,\n      qtest_requirement_id: httpResponse.id,\n      qtest_requirement_name: httpResponse.name,\n      attempts: previousData.retryCount + 1 || 1,\n      original_data: previousData\n    }\n  };\n} else {\n  // Extract error details\n  let errorMessage;\n  if (!httpResponse.data) {\n    \n  errorMessage = httpResponse.error?.message || \n                      httpResponse.message || \n                      'Unknown error occurred';\n  }else{\n    errorMessage = httpResponse.data;\n  }\n  \n  const statusCode = httpResponse.statusCode || \n                     !httpResponse.data ? httpResponse.error.status : -1 || \n                    500;\n  \n  console.log('❌ HTTP Request failed');\n  console.log('Status Code:', statusCode);\n  console.log('Error:', errorMessage);\n  \n  // Determine if error is retryable\n  const retryableErrors = [429, 500, 502, 503, 504];\n  const isRetryable = retryableErrors.includes(statusCode) || \n                     errorMessage.includes('ETIMEDOUT') ||\n                     errorMessage.includes('ECONNREFUSED') ||\n                     errorMessage.includes('ENOTFOUND');\n\n  let errorMsg = \"\";\n  // Parse the JSON string into a JavaScript object\n  if(!httpResponse.data){\n    try {\n      const match = errorMessage.match(/\\{.*\\}/); \n      if (match && match[0]) {\n        // match[0] contains ONLY the content inside the parentheses (the clean JSON string)\n        const jsonString = match[0]; \n        const cleanedJsonString = JSON.parse(`\"${jsonString}\"`);\n        const errorData = JSON.parse(cleanedJsonString);\n  \n        // Extract the required fields and make error message\n        errorMsg = `${errorData.title} - ${errorData.message}`;\n          \n      }\n    \n    } catch (e) {\n      errorMsg = errorMessage\n    }\n  }else {errorMsg = errorMessage.trim();}\n  \n  return {\n    json: {\n      success: false,\n      error: true,\n      operation: 'created',\n      error_message: errorMsg,\n      status_code: statusCode,\n      status: !httpResponse.data ? httpResponse.error.code : -1 || 'ERROR',\n      is_retryable: isRetryable,\n      retry_count: previousData.retryCount || 0,\n      max_retries: previousData.errorSimulation?.MAX_RETRIES || 3,\n      azure_work_item_id: previousData.azure_work_item_id,\n      original_data: previousData\n    }\n  };\n}\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1328,
-        0
+        2048,
+        -608
       ],
-      "id": "ba2b8f4a-d37c-449e-9a4f-09e9d53e01cf",
+      "id": "d820c9a2-0c26-4674-b913-b2c9c42ee557",
       "name": "Check For Response Status"
     },
     {
@@ -937,13 +951,614 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1520,
-        0
+        2240,
+        -608
       ],
-      "id": "0bc371b3-d499-466a-b888-d7323619b9a0",
+      "id": "2989682c-a172-42b1-94c9-84917903f822",
       "name": "If success or failed?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a0b27ed8-4e41-47a4-8c6c-2ee55425d834",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1328,
+        -272
+      ],
+      "id": "46563565-bb2a-4d22-862d-fc9af9e9d5ae",
+      "name": "is payload created successfully?"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1BMQqMpBQ3M3tDj_yXCMqF0ZtFtQvxCh7Q8dXEVW2O10",
+          "mode": "list",
+          "cachedResultName": "ADO-qTest Logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BMQqMpBQ3M3tDj_yXCMqF0ZtFtQvxCh7Q8dXEVW2O10/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 829971239,
+          "mode": "list",
+          "cachedResultName": "Errors",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BMQqMpBQ3M3tDj_yXCMqF0ZtFtQvxCh7Q8dXEVW2O10/edit#gid=829971239"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $json.logFields.Timestamp }}",
+            "Event Type": "={{ $json.logFields.Event_Type }}",
+            "Project Name": "={{ $json.logFields.Project_Name }}",
+            "Work Item ID": "={{ $json.logFields.Work_Item_ID }}",
+            "Operation": "={{ $json.logFields.Operation }}",
+            "Error Code": "={{ $json.logFields.Error_Code }}",
+            "Error Message": "={{ $json.logFields.Error_Message }}",
+            "Attempts": "={{ $json.logFields.Attempts }}",
+            "Status": "={{ $json.logFields.Status }}",
+            "qTest Project ID": "={{ $json.logFields.qTest_Project_ID }}",
+            "qTest URL": "={{ $json.logFields.qTest_URL }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Event Type",
+              "displayName": "Event Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Project Name",
+              "displayName": "Project Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Work Item ID",
+              "displayName": "Work Item ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Operation",
+              "displayName": "Operation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Error Code",
+              "displayName": "Error Code",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Error Message",
+              "displayName": "Error Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Attempts",
+              "displayName": "Attempts",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "qTest Project ID",
+              "displayName": "qTest Project ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "qTest URL",
+              "displayName": "qTest URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1584,
+        -80
+      ],
+      "id": "a128eecf-41ec-45fe-b240-0dd2efae55a3",
+      "name": "Log payload creation failed",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "IyK1i0zXcdUKePIG",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const now = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }).slice(0,19).replace(\"T\",\" \");\nconst data = $input.first().json;\nconst project = data.original_data.projectConfig?.azure_project_name || data.original_data.projectName || '';\nconst qtest_project_id = !data.original_data.data ? data.original_data.qtest_project_id : -1 || '';\nconst qtest_url = !data.original_data.data ? data.original_data.qtest_url : \"N/A\" || data.qtest_url || '';\nconst msg = data.error_message || \"\";\n\nreturn {\n  json: {\n    Timestamp: now,\n    Event_Type: $('Event Switch').first().json.eventType || 'unknown',\n    Project_Name: project!== \"\" ? project : 'N/A',\n    Work_Item_ID: data.original_data.workitem_id || -1,\n    Operation: data.operation || '',\n    Error_Code: data.status_code || '',\n    Error_Message: msg,\n    Attempts: data.attempts || data.retry_count || 0,\n    Status: data.status || 'ERROR',\n    qTest_Requirement_ID: !data.original_data.data ? data.original_data.workitem_id : -1 || '',\n    qTest_Project_ID: qtest_project_id,\n    qTest_URL: qtest_url\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2448,
+        -544
+      ],
+      "id": "b454ac88-bc27-4ad1-a9da-79c9cfdf35c2",
+      "name": "Error Logging Node - Create"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e98950de-81fe-4230-82a3-8bd6a876da77",
+              "leftValue": "={{ $json.dataFound }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2304,
+        -288
+      ],
+      "id": "12794620-4a50-4ac4-bfaf-a93373c9fa1a",
+      "name": "Is search succeeded? Update"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "850691c9-0a9a-4688-add9-d397b95287a3",
+              "leftValue": "={{ $json.dataFound }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2288,
+        64
+      ],
+      "id": "d243cc89-47bf-4658-9dd5-648341cd0c76",
+      "name": "Is search succeeded? Delete"
+    },
+    {
+      "parameters": {
+        "jsCode": "const now = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }).slice(0,19).replace(\"T\",\" \");\nconst data = $input.first().json;\nconst project = data.original_data.projectConfig?.azure_project_name || data.original_data.projectName || '';\nconst qtest_project_id = !data.original_data.data ? data.original_data.qtest_project_id : -1 || '';\nconst qtest_url = !data.original_data.data ? data.original_data.qtest_url : \"N/A\" || data.qtest_url || '';\nconst msg = data.error_message || \"\";\n\nreturn {\n  json: {\n    Timestamp: now,\n    Event_Type: $input.first().json.original_data.eventType || 'unknown',\n    Project_Name: project!== \"\" ? project : 'N/A',\n    Work_Item_ID: data.original_data.workitem_id || -1,\n    Operation: data.operation || '',\n    Error_Code: data.status_code || '',\n    Error_Message: msg,\n    Attempts: data.attempts || data.retry_count || 0,\n    Status: data.status || 'ERROR',\n    qTest_Requirement_ID: !data.original_data.data ? data.original_data.workitem_id : -1 || '',\n    qTest_Project_ID: qtest_project_id,\n    qTest_URL: qtest_url\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2512,
+        -160
+      ],
+      "id": "2c13e101-28cc-4438-a7ad-edc1a72bd551",
+      "name": "Error Logging Node - Search-Update"
+    },
+    {
+      "parameters": {
+        "jsCode": "const now = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }).slice(0,19).replace(\"T\",\" \");\nconst data = $input.first().json;\nconst project = data.original_data.projectConfig?.azure_project_name || data.original_data.projectName || '';\nconst qtest_project_id = !data.original_data.data ? data.original_data.qtest_project_id : -1 || '';\nconst qtest_url = !data.original_data.data ? data.original_data.qtest_url : \"N/A\" || data.qtest_url || '';\nconst msg = data.error_message || \"\";\n\nreturn {\n  json: {\n    Timestamp: now,\n    Event_Type: $input.first().json.original_data.eventType || 'unknown',\n    Project_Name: project!== \"\" ? project : 'N/A',\n    Work_Item_ID: data.original_data.workitem_id || -1,\n    Operation: data.operation || '',\n    Error_Code: data.status_code || '',\n    Error_Message: msg,\n    Attempts: data.attempts || data.retry_count || 0,\n    Status: data.status || 'ERROR',\n    qTest_Requirement_ID: !data.original_data.data ? data.original_data.workitem_id : -1 || '',\n    qTest_Project_ID: qtest_project_id,\n    qTest_URL: qtest_url\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2496,
+        192
+      ],
+      "id": "057c969f-916d-4cb2-81a6-4c6e98d46e44",
+      "name": "Error Logging Node - Search-Delete"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1BMQqMpBQ3M3tDj_yXCMqF0ZtFtQvxCh7Q8dXEVW2O10",
+          "mode": "list",
+          "cachedResultName": "ADO-qTest Logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BMQqMpBQ3M3tDj_yXCMqF0ZtFtQvxCh7Q8dXEVW2O10/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 829971239,
+          "mode": "list",
+          "cachedResultName": "Errors",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BMQqMpBQ3M3tDj_yXCMqF0ZtFtQvxCh7Q8dXEVW2O10/edit#gid=829971239"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $json.Timestamp }}",
+            "Event Type": "={{ $json.Event_Type }}",
+            "Project Name": "={{ $json.Project_Name }}",
+            "Work Item ID": "={{ $json.Work_Item_ID }}",
+            "Operation": "={{ $json.Operation }}",
+            "Error Code": "={{ $json.Error_Code }}",
+            "Error Message": "={{ $json.Error_Message }}",
+            "Attempts": "={{ $json.Attempts }}",
+            "Status": "={{ $json.Status }}",
+            "qTest Project ID": "={{ $json.qTest_Project_ID }}",
+            "qTest URL": "={{ $json.qTest_URL }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Event Type",
+              "displayName": "Event Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Project Name",
+              "displayName": "Project Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Work Item ID",
+              "displayName": "Work Item ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Operation",
+              "displayName": "Operation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Error Code",
+              "displayName": "Error Code",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Error Message",
+              "displayName": "Error Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Attempts",
+              "displayName": "Attempts",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "qTest Project ID",
+              "displayName": "qTest Project ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "qTest URL",
+              "displayName": "qTest URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2704,
+        192
+      ],
+      "id": "9735ed29-1a36-43d6-9caa-cb07242d2ac6",
+      "name": "Add Req Search Error Log - Delete",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "IyK1i0zXcdUKePIG",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1BMQqMpBQ3M3tDj_yXCMqF0ZtFtQvxCh7Q8dXEVW2O10",
+          "mode": "list",
+          "cachedResultName": "ADO-qTest Logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BMQqMpBQ3M3tDj_yXCMqF0ZtFtQvxCh7Q8dXEVW2O10/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 829971239,
+          "mode": "list",
+          "cachedResultName": "Errors",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BMQqMpBQ3M3tDj_yXCMqF0ZtFtQvxCh7Q8dXEVW2O10/edit#gid=829971239"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $json.Timestamp }}",
+            "Event Type": "={{ $json.Event_Type }}",
+            "Project Name": "={{ $json.Project_Name }}",
+            "Work Item ID": "={{ $json.Work_Item_ID }}",
+            "Operation": "={{ $json.Operation }}",
+            "Error Code": "={{ $json.Error_Code }}",
+            "Error Message": "={{ $json.Error_Message }}",
+            "Attempts": "={{ $json.Attempts }}",
+            "Status": "={{ $json.Status }}",
+            "qTest Project ID": "={{ $json.qTest_Project_ID }}",
+            "qTest URL": "={{ $json.qTest_URL }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Event Type",
+              "displayName": "Event Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Project Name",
+              "displayName": "Project Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Work Item ID",
+              "displayName": "Work Item ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Operation",
+              "displayName": "Operation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Error Code",
+              "displayName": "Error Code",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Error Message",
+              "displayName": "Error Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Attempts",
+              "displayName": "Attempts",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "qTest Project ID",
+              "displayName": "qTest Project ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "qTest URL",
+              "displayName": "qTest URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2720,
+        -160
+      ],
+      "id": "14b2509c-df39-4de8-9598-481cd14b95e4",
+      "name": "Add Req Search Error Log - Update",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "IyK1i0zXcdUKePIG",
+          "name": "Google Sheets account"
+        }
+      }
     }
   ],
+  "pinData": {},
   "connections": {
     "Create-HTTP Request": {
       "main": [
@@ -971,6 +1586,13 @@
             "type": "main",
             "index": 0
           }
+        ],
+        [
+          {
+            "node": "Extract Req Id - JS - Delete",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
@@ -978,7 +1600,7 @@
       "main": [
         [
           {
-            "node": "Req Found? Delete",
+            "node": "Is search succeeded? Delete",
             "type": "main",
             "index": 0
           }
@@ -1040,6 +1662,13 @@
             "type": "main",
             "index": 0
           }
+        ],
+        [
+          {
+            "node": "Extract Req Id - JS - Update",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
@@ -1047,7 +1676,7 @@
       "main": [
         [
           {
-            "node": "Req Found? Update",
+            "node": "Is search succeeded? Update",
             "type": "main",
             "index": 0
           }
@@ -1080,7 +1709,7 @@
       "main": [
         [
           {
-            "node": "Event Switch",
+            "node": "is payload created successfully?",
             "type": "main",
             "index": 0
           }
@@ -1092,17 +1721,6 @@
         [
           {
             "node": "Add Success Logs to Worksheet",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Error Logging Node": {
-      "main": [
-        [
-          {
-            "node": "Add Failure Logs to Worksheet",
             "type": "main",
             "index": 0
           }
@@ -1131,7 +1749,94 @@
         ],
         [
           {
-            "node": "Error Logging Node",
+            "node": "Error Logging Node - Create",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "is payload created successfully?": {
+      "main": [
+        [
+          {
+            "node": "Event Switch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log payload creation failed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Logging Node - Create": {
+      "main": [
+        [
+          {
+            "node": "Add Failure Logs to Worksheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is search succeeded? Update": {
+      "main": [
+        [
+          {
+            "node": "Req Found? Update",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error Logging Node - Search-Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is search succeeded? Delete": {
+      "main": [
+        [
+          {
+            "node": "Req Found? Delete",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error Logging Node - Search-Delete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Logging Node - Search-Update": {
+      "main": [
+        [
+          {
+            "node": "Add Req Search Error Log - Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Logging Node - Search-Delete": {
+      "main": [
+        [
+          {
+            "node": "Add Req Search Error Log - Delete",
             "type": "main",
             "index": 0
           }
@@ -1139,63 +1844,15 @@
       ]
     }
   },
+  "active": false,
   "settings": {
-    "executionOrder": "v1",
-    "callerPolicy": "workflowsFromSameOwner",
-    "availableInMCP": false
+    "executionOrder": "v1"
   },
-  "staticData": null,
+  "versionId": "53279ae1-7b5c-4f37-968b-08c58c273c0c",
   "meta": {
-    "templateCredsSetupCompleted": true
+    "templateCredsSetupCompleted": true,
+    "instanceId": "59d808ce783ad80b8e9cb2b54575e1ad01ae3f95cf1d9d70bcf16abc94fc8c3e"
   },
-  "pinData": {},
-  "versionId": "39f9a34c-bce1-43d8-bf23-88e70a80b800",
-  "triggerCount": 1,
-  "tags": [],
-  "parentFolder": null,
-  "homeProject": {
-    "id": "m1x7bADOuDCb5ELQ",
-    "type": "personal",
-    "name": "Abhishek Singh <abhishek_s@pursuitsoftware.com>",
-    "icon": null
-  },
-  "sharedWithProjects": [],
-  "usedCredentials": [
-    {
-      "id": "E8FCpJn3yP6SRy7U",
-      "name": "Bearer Auth account",
-      "type": "httpBearerAuth",
-      "currentUserHasAccess": true,
-      "homeProject": {
-        "id": "m1x7bADOuDCb5ELQ",
-        "type": "personal",
-        "name": "Abhishek Singh <abhishek_s@pursuitsoftware.com>",
-        "icon": null
-      },
-      "sharedWithProjects": []
-    },
-    {
-      "id": "st2ZXqgfMSCKNZCh",
-      "name": "qTest Log Sheet",
-      "type": "googleSheetsOAuth2Api",
-      "currentUserHasAccess": true,
-      "homeProject": {
-        "id": "m1x7bADOuDCb5ELQ",
-        "type": "personal",
-        "name": "Abhishek Singh <abhishek_s@pursuitsoftware.com>",
-        "icon": null
-      },
-      "sharedWithProjects": []
-    }
-  ],
-  "scopes": [
-    "workflow:create",
-    "workflow:delete",
-    "workflow:execute",
-    "workflow:list",
-    "workflow:move",
-    "workflow:read",
-    "workflow:share",
-    "workflow:update"
-  ]
+  "id": "aj3DnxBXRRQvKaBe",
+  "tags": []
 }
