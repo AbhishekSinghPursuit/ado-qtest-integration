@@ -17,6 +17,8 @@ This workflow shows how Azure DevOps automatically connects to qTest through n8n
 [Workflow Documentation](/docs/workflow-documentation.md)
 
 ## n8n workflow
+**v3.0.2**
+<img width="1669" height="943" alt="Screenshot 2025-11-17 110229" src="https://github.com/user-attachments/assets/625e5fc9-cdfe-454d-8acb-f853e60af5c6" />
 **v3.0.0**
 <img width="1800" height="868" alt="Screenshot 2025-11-13 101709" src="https://github.com/user-attachments/assets/7b1ceba1-6b97-4746-baf5-a5e6a5b27791" />
 **v2.0.0**
@@ -71,7 +73,10 @@ git commit -m "feat: Add multi-project configuration support
 git push origin feature/multi-project-config 
 ```
  
-8. Create Pull Request on GitHub/GitLab 
+8. Create Pull Request on GitHub/GitLab
+
+## Troubleshooting Guide
+[docs/Troubleshoot](/docs/troubleshooting.md)
 
 ## Import Workflows from n8n
 > **n8n API Key & curl (For automatic import):** Only for self-hosted or cloud enterprise users with elevated access. Not available to standard n8n Cloud users.
