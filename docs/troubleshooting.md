@@ -33,3 +33,13 @@
 #### Quick Fix: 
 - Confirm task was deleted (not just moved) 
 - Check Azure DevOps service hook history for delivery attempts 
+
+### If you get error respone like - "Project is not found"
+
+#### Possible causes: 
+- Project configuration in `Load Configuration - Js` node is missing or incorrect
+- Bearer Auth Token for the particular qTest project with the respective qTest account is not set correclty in `HTTP Request` nodes
+
+#### Quick Fix: 
+- Make sure project configurations like - qTest project id, qTest API URL, requirements parent id are correct and match with you project 
+- If you are using a qTest project of different account then you will need to find out its separate Bearer access token for the qTest project and then create a new credential into n8n and then select that credential into `HTTP Request` nodes. If you are using same different qTest project withing same qTest account then make sure user has permissions to manager all the permissions using API. 

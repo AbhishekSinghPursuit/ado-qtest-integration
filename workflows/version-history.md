@@ -64,6 +64,20 @@
 ### Changes
 - `Update` and `Delete` branches has been modified with error handling and logging nodes
 - Also updateed the `Extract Req Id` nodes for both the update and delete branches to get the response of `Search HTTP Request` nodes
+ 
+## Version 3.0.2 (2025-11-14) 
+**Author:** Abhishek Singh
+
+### Added
+- In this version I have impelemented the HTTP Response handling and logging them into a Google sheet in case of either success executions or failed on in the `update/delete` branches. 
+- For `create` branch repsonse handling and logging was already being done in the previous version `3.0.0`.
+- Extended the `Update` and `Delete` branches with error check nodes (`Check for Update Resposne Status` and `Check for Delete Resposne Status`) that check for any errors coming during executions in both the branches otherwise success executions are also being considered here. 
+- Success/Failure is determined using `If Node`. After that the error or success executions details are then structured into a format using `Code Node` and then they are logged into a google sheet using `Google Sheet` node
+- Added some sticky notes in the workflow so that anyone new to this workflow can get an idea about the workflow and its node's working
+
+### Changes
+- `Search Req-HTTP Request` in both `Update` and `Delete` branches has been modified with error handling and logging nodes
+- While implementing logging for both success and failed executions, also updateed the `Extract Req Id` nodes for both the update and delete branches to get the response of `Search HTTP Request` nodes
 
 
  
