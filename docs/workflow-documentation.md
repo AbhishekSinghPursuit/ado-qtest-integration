@@ -33,6 +33,7 @@ This workflow creates an integration between Azure DevOps work items and qTest r
 - **Output:** { webhookData, azureProjectName, eventType } 
   
 ### 3. Build Dynamic Payload - JS Node  
+See [workflows/project-config](/workflows/project-config.json) for structure
 - **Purpose:** Map ADO fields to qTest payload, select project config and simulate errors for tests  
 - **Type:** Code (JavaScript)  
 - **Input:** webhookData + azureProjectName from Load Configurations - JS  
@@ -298,7 +299,7 @@ This workflow creates an integration between Azure DevOps work items and qTest r
 3. **MySQL Connection** - For logging 
  
 ### Project Configuration 
-See `workflows/project-config.json` for structure. 
+See [workflows/project-config](/workflows/project-config.json) for structure. 
  
 Each project needs: 
 - qTest project ID 

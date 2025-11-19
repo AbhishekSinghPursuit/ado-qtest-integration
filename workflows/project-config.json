@@ -1,0 +1,26 @@
+[{
+  "projectName1": { 
+    "qtest_project_id": 12345, 
+    "qtest_url": "https://example.qtestnet.com", 
+    "field_mappings": { 
+      "description": 1234567, 
+      "azure_devops_id": 1234567, 
+      "ado_url": 1234567, 
+      "created_by": 1234567 
+    }, 
+    "parent_requirement_id": 1234567, 
+    "default_status": "Draft" 
+  },
+  "projectName2": { 
+    "qtest_project_id": 12345, 
+    "qtest_url": "https://example.qtestnet.com", 
+    "field_mappings": { 
+      "description": 1234567, 
+      "azure_devops_id": 1234567, 
+      "ado_url": 1234567, 
+      "created_by": 1234567 
+    }, 
+    "parent_requirement_id": 1234567, 
+    "default_status": "Draft" 
+  }
+}]
