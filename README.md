@@ -105,19 +105,17 @@ ado-qtest-integration/
 ├── README.md 
 ├── workflows/ 
 │   ├── main-workflow.json 
-│   ├── error-handling-workflow.json 
+│   ├── project-config.json 
 │   └── version-history.md 
 ├── credentials/ 
 │   ├── credentials-template.json  (NO ACTUAL TOKENS) 
 │   └── README.md 
 ├── docs/ 
-│   ├── setup-guide.md 
 │   ├── troubleshooting.md 
-│   └── architecture.md 
+│   └── workflow-documentation.md 
 └── scripts/ 
     ├── export-workflows.sh 
-    ├── import-workflows.sh 
-    └── validate-workflow.js
+    └── import-workflow.sh
 ```
 
 ## Contributing
